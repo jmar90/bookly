@@ -1,8 +1,12 @@
+<% include partials/header %>
+
 <h1>This is the bookstores page</h1>
 
 <% bookstores.forEach((bookstore) => { %>
 	<div>
-		<h2><%= bookstore.name %></h2>
+		<h4><%= bookstore.name %></h4>
 		<img src = '<%= bookstore.image %>'>
 	</div>
 <% }) %>
+
+<% include partials/footer %>
