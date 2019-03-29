@@ -1,0 +1,8 @@
+<h1>This is the bookstores page</h1>
+
+<% bookstores.forEach((bookstore) => { %>
+	<div>
+		<h2><%= bookstore.name %></h2>
+		<img src = '<%= bookstore.image %>'>
+	</div>
+<% }) %>
