@@ -1,0 +1,13 @@
+<% include partials/header %>
+
+<h1>Add a Bookstore</h1>
+
+<form action='/bookstores' method='POST'> <!--form sends data via post request-->
+	<input type='text' name='name' placeholder='Bookstore name'>
+	<input type='text' name='image' placeholder='Photo of bookstore (url)'>
+	<button>Submit</button>
+</form>
+
+<a href='/bookstores'>Go Back</a>
+
+<% include partials/footer %>
