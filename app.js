@@ -20,8 +20,28 @@ let bookstores = [
 		image: 'https://images.unsplash.com/photo-1526248283201-fafd30eb2b90?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
 	},
 	{
-		name: 'Bookstore around the Corner',
+		name: 'Book Pressing',
 		image: 'https://images.unsplash.com/photo-1518373714866-3f1478910cc0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
+	},
+	{
+		name: 'Worn Pages',
+		image: 'https://images.unsplash.com/photo-1519498955853-621f66b86038?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1052&q=80'
+	},
+	{
+		name: 'Bookmark',
+		image: 'https://images.unsplash.com/photo-1548844707-68d851b62ebc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'
+	},
+	{
+		name: 'Pages',
+		image: 'https://images.unsplash.com/photo-1550399105-c4db5fb85c18?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80'
+	},
+	{
+		name: 'Book Nook',
+		image: 'https://images.unsplash.com/photo-1525358180237-7399f908a1d9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1057&q=80'
+	},
+	{
+		name: 'A Quiet Corner',
+		image: 'https://images.unsplash.com/photo-1530519362533-b36020711133?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
 	}
 ]
 
