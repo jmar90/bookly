@@ -1,13 +1,24 @@
 <% include partials/header %>
 
-<h1>Add a Bookstore</h1>
+<div class='container mt-3'>
+	<h1 class='text-center mb-3'>Add a Bookstore</h1>
 
-<form action='/bookstores' method='POST'> <!--form sends data via post request-->
-	<input type='text' name='name' placeholder='Bookstore name'>
-	<input type='text' name='image' placeholder='Photo of bookstore (url)'>
-	<button>Submit</button>
-</form>
+	<!-- Form to add a bookstore -->
+	<div class='w-50 mx-auto'> <!--40% width, center horizontally-->
+		<form action='/bookstores' method='POST'> <!--form sends data via post request-->
+		  <div class='form-group'>
+		    <label for='name'>Bookstore Name</label>
+		    <input type='text' class='form-control' name='name' id='name' placeholder='Enter name of bookstore'>
+		  </div>
+		  <div class='form-group'>
+		    <label for='image'>Photo of Bookstore</label>
+		    <input type='text' class='form-control' name='image' id='image' placeholder='Enter image url'>
+		  </div>
+		  <button type='submit' class='btn btn-info'>Submit</button>
+		</form>
 
-<a href='/bookstores'>Go Back</a>
+		<a class='text-info-edit' href='/bookstores'>Go Back</a>
+	</div>	
+</div>
 
 <% include partials/footer %>

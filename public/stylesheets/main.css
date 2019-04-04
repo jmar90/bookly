@@ -1,0 +1,81 @@
+/* ----------------------------------------------------------- */
+/* CSS VARIABLES  */
+/* ----------------------------------------------------------- */
+:root {
+   --accent-color: #1fc8e3;
+   --font-color: #555;
+   --white-bg-color: #f7f7f7;
+   --grey-bg-color: #f4f4f4;
+}
+
+
+/* ----------------------------------------------------------- */
+/* BASIC SETUP */
+/* ----------------------------------------------------------- */
+html,
+body {  
+    background-color: var(--white-bg-color);
+    color: var(--font-color);
+    font-family: 'Lato', 'Arial', sans-serif;
+    font-weight: 300;
+}
+
+
+/* ----------------------------------------------------------- */
+/* REUSABLE COMPONENTS */
+/* ----------------------------------------------------------- */
+/* Buttons */
+.btn-info {
+	background-color: var(--accent-color);
+	border-color: var(--acent-color);
+	color: var(--grey-bg-color);
+}
+
+.btn-info:hover,
+.btn-outlin-info:hover {
+	background-color: #17a2b8;
+	border-color: #17a2b8;
+	color: var(--grey-bg-color);
+}
+
+.btn-outline-info {
+	color: var(--accent-color);
+	border-color: var(--accent-color);
+}
+
+/* Forms */
+.form-control {  /* update bootstrap class */
+	color: var(--font-color); 
+	font-weight: 300;
+}
+
+/* Text colors */
+.text-info-edit, .text-info-edit:hover { color: var(--accent-color); }
+
+
+/* ----------------------------------------------------------- */
+/* NAVBAR */
+/* ----------------------------------------------------------- */
+#nav { background-color: var(--white-bg-color); }
+
+#search-button { height: calc(1.5em + .75rem + 2px); }  /* So height is the same as search box */
+
+
+/* ----------------------------------------------------------- */
+/* BOOKSTORE ROUTE  */
+/* ----------------------------------------------------------- */
+/* Jumbotron */
+#bookstore-jumbotron { background-color: var(--grey-bg-color); }
+
+/* Cards */
+.card-header { border-bottom: 1px solid #ececec; }
+
+#bookstore-cards { 
+	background-color: var(--white-bg-color);
+	border: 1px solid #ececec; 
+}
+
+#bookstore-name {
+	font-size: 1.20rem;
+	font-weight: 400;
+}
