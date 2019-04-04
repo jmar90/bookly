@@ -7,6 +7,7 @@ const express 		= require('express'),
 // APP CONFIGURATION: Tell app to use packages //
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(__dirname + "/public"));
 
 
 // SEED DATA //
@@ -24,15 +25,15 @@ let bookstores = [
 		image: 'https://images.unsplash.com/photo-1518373714866-3f1478910cc0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
 	},
 	{
-		name: 'Worn Pages',
-		image: 'https://images.unsplash.com/photo-1519498955853-621f66b86038?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1052&q=80'
-	},
-	{
 		name: 'Bookmark',
 		image: 'https://images.unsplash.com/photo-1548844707-68d851b62ebc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'
 	},
 	{
-		name: 'Pages',
+		name: 'Julia\'s Bookshop',
+		image: 'https://images.unsplash.com/photo-1530519362533-b36020711133?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
+	},
+	{
+		name: 'Bookshop around the Corner',
 		image: 'https://images.unsplash.com/photo-1550399105-c4db5fb85c18?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80'
 	},
 	{
@@ -41,7 +42,11 @@ let bookstores = [
 	},
 	{
 		name: 'A Quiet Corner',
-		image: 'https://images.unsplash.com/photo-1530519362533-b36020711133?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
+		image: 'https://images.unsplash.com/photo-1474500509889-915dbf0f966a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
+	},
+	{
+		name: 'Opera Books',
+		image: 'https://images.unsplash.com/photo-1509565118126-4f0ff5aec05d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1119&q=80'
 	}
 ]
 
