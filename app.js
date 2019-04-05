@@ -1,54 +1,41 @@
+// (Note: For db to work, start up MongoDB via 'mongod' in separte terminal)
+
 // LOAD IN MODULES //
 const express 		= require('express'),
+		app 			= express(),
 		bodyParser 	= require('body-parser'),
-		app 			= express();
+		mongoose		= require('mongoose');
 
 
-// APP CONFIGURATION: Tell app to use packages //
+// APP CONFIGURATION: Connect to bookly DB & tell app to use packages //
+mongoose.connect('mongodb://localhost:27017/bookly', { useNewUrlParser: true});  //27017 is default port for mongo
+
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 
+// SCHEMA SET UP (ie, define data structure)
+const bookstoreSchema = new mongoose.Schema({
+	name: String,
+	image: String
+});
 
-// SEED DATA //
-let bookstores = [
-	{
-		name: 'The Dusty Bookshelf',
-		image: 'https://images.unsplash.com/photo-1533327325824-76bc4e62d560?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
-	},
-	{
-		name: 'Bibliophile',
-		image: 'https://images.unsplash.com/photo-1526248283201-fafd30eb2b90?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
-	},
-	{
-		name: 'Book Pressing',
-		image: 'https://images.unsplash.com/photo-1518373714866-3f1478910cc0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
-	},
-	{
-		name: 'Bookmark',
-		image: 'https://images.unsplash.com/photo-1548844707-68d851b62ebc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'
-	},
-	{
-		name: 'Julia\'s Bookshop',
-		image: 'https://images.unsplash.com/photo-1530519362533-b36020711133?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
-	},
-	{
-		name: 'Bookshop around the Corner',
-		image: 'https://images.unsplash.com/photo-1550399105-c4db5fb85c18?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80'
-	},
-	{
-		name: 'Book Nook',
-		image: 'https://images.unsplash.com/photo-1525358180237-7399f908a1d9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1057&q=80'
-	},
-	{
-		name: 'A Quiet Corner',
-		image: 'https://images.unsplash.com/photo-1474500509889-915dbf0f966a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
-	},
-	{
-		name: 'Opera Books',
-		image: 'https://images.unsplash.com/photo-1509565118126-4f0ff5aec05d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1119&q=80'
-	}
-]
+// CREATE COLLECTIONS (ie, data tables)
+// Do this by compiling schema into a model
+const Bookstore = mongoose.model('Bookstore', bookstoreSchema);
+
+// Bookstore.create(
+// 	{
+// 		name: 'Bibliophile',
+// 		image: 'https://images.unsplash.com/photo-1526248283201-fafd30eb2b90?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
+// 	}, function(err, bookstore){
+// 		if(err){
+// 			console.log(err);
+// 		} else {
+// 			console.log('New bookstore');
+// 			console.log(bookstore);
+// 		}
+// 	})
 
 
 // SET UP ROUTES //
@@ -59,8 +46,16 @@ app.get('/', (req, res) => {
 
 //View all bookstores (get)
 app.get('/bookstores', (req, res) => {
-	//Render bookstores.ejs file. {name we want to give: data we are passing thru}
-	res.render('bookstores', {bookstores:bookstores});
+	// Pull all bookstore data from Bookstores collection, which is saved in Bookstore const
+	Bookstore.find({}, function(err, allBookstores){
+		if(err){
+			console.log(err);
+		} else {
+			//Render bookstores.ejs file. {name we want to give: data we are passing thru}
+			//Pass thru the allBookstores data from our Mongo DB to bookstores.js under the name 'bookstores'
+			res.render('bookstores', {bookstores:allBookstores}); 
+		}
+	})
 });
 
 //Form to add a bookstore (get)
@@ -74,9 +69,15 @@ app.post('/bookstores', (req, res) => {
 	let name = req.body.name;
 	let image = req.body.image;
 	let newBookstore = {name: name, image: image};
-	bookstores.push(newBookstore);
-	//Redirect (via get request) back to bookstores route
-	res.redirect('/bookstores');
+	//Create a new bookstore & save to DB
+	Bookstore.create(newBookstore, function(err, newlyCreated){
+		if(err){
+			console.log(err);
+		} else{
+			//If new bookstore successfully added, redirect (via get request) back to bookstores route
+			res.redirect('/bookstores');
+		}
+	})	
 });
 
 // SET UP PORT //
