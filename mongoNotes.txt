@@ -1,0 +1,12 @@
+/// MongoDB Notes ///
+
+1) Ensure 'mongod' is running in separte terminal
+2) Access MongoDB via 'mongo' command in terminal
+3) To view databases: show dbs
+4) Connect to specific database: use [dbName]
+	use bookly
+5) View collections: show collections
+6) View all records in collection: db.collectionName.find()
+	db.bookstores.find()
+7) Drop collection: db.collectionName.drop()
+	db.bookstores.drop()

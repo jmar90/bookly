@@ -52,6 +52,12 @@ body {
 /* Text colors */
 .text-info-edit, .text-info-edit:hover { color: var(--accent-color); }
 
+/* Cards */
+#bookstore-cards, #bookstore-show-card { 
+	background-color: var(--white-bg-color);
+	border: 1px solid #ececec; 
+}
+
 
 /* ----------------------------------------------------------- */
 /* NAVBAR */
@@ -62,20 +68,21 @@ body {
 
 
 /* ----------------------------------------------------------- */
-/* BOOKSTORE ROUTE  */
+/* INDEX (BOOKSTORE) ROUTE  */
 /* ----------------------------------------------------------- */
 /* Jumbotron */
 #bookstore-jumbotron { background-color: var(--grey-bg-color); }
 
 /* Cards */
-.card-header { border-bottom: 1px solid #ececec; }
-
-#bookstore-cards { 
-	background-color: var(--white-bg-color);
-	border: 1px solid #ececec; 
-}
-
 #bookstore-name {
 	font-size: 1.20rem;
 	font-weight: 400;
 }
+
+/* ----------------------------------------------------------- */
+/* BOOKSTORE SHOW ROUTE  */
+/* ----------------------------------------------------------- */
+#bookstore-show-name {
+	font-weight: 300;
+}
+

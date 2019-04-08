@@ -1,0 +1,13 @@
+<% include partials/header %>
+<div class='container mt-3'>
+	<div id='bookstore-show-card' class='card w-75 mb-3 shadow-sm mx-auto'>
+		<img class='card-img-top' src="<%= bookstore.image %>" alt="Bookstore image">
+		<div class='card-body'>
+			<h1 id='bookstore-show-name' class='card-title'><%= bookstore.name %></h1>
+			<p class='card-text'><%= bookstore.description %></p>
+			<a class='text-info-edit' href='/bookstores'>Go Back</a>
+		</div>
+	</div>
+	
+</div>
+<% include partials/footer %>
