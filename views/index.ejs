@@ -17,7 +17,8 @@
 					<img class='card-img-top' src = '<%= bookstore.image %>'>
 					<div class='card-body'>
 						<h2 id='bookstore-name' class='card-title'><%= bookstore.name %></h2>
-						<p class='card-text'>Placeholder text</p>
+						<p class='card-text'><%= bookstore.description %></p>
+						<a class='btn btn-outline-info btn-sm' href='/bookstores/<%= bookstore._id %>'>More Info</a>
 					</div>
 				</div>		
 			<% }) %>

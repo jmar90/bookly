@@ -17,17 +17,19 @@ app.use(express.static(__dirname + "/public"));
 // SCHEMA SET UP (ie, define data structure)
 const bookstoreSchema = new mongoose.Schema({
 	name: String,
-	image: String
+	image: String,
+	description: String
 });
 
-// CREATE COLLECTIONS (ie, data tables)
+// CREATE MODELS & COLLECTIONS (ie, data tables)
 // Do this by compiling schema into a model
 const Bookstore = mongoose.model('Bookstore', bookstoreSchema);
 
 // Bookstore.create(
 // 	{
 // 		name: 'Bibliophile',
-// 		image: 'https://images.unsplash.com/photo-1526248283201-fafd30eb2b90?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
+// 		image: 'https://images.unsplash.com/photo-1526248283201-fafd30eb2b90?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+// 		description: 'A beautiful, turn of the century bookstore.'
 // 	}, function(err, bookstore){
 // 		if(err){
 // 			console.log(err);
@@ -44,31 +46,32 @@ app.get('/', (req, res) => {
 	res.render('landing');
 });
 
-//View all bookstores (get)
+//INDEX - view all bookstores
 app.get('/bookstores', (req, res) => {
 	// Pull all bookstore data from Bookstores collection, which is saved in Bookstore const
 	Bookstore.find({}, function(err, allBookstores){
 		if(err){
 			console.log(err);
 		} else {
-			//Render bookstores.ejs file. {name we want to give: data we are passing thru}
-			//Pass thru the allBookstores data from our Mongo DB to bookstores.js under the name 'bookstores'
-			res.render('bookstores', {bookstores:allBookstores}); 
+			//Render index.ejs file. {name we want to give: data we are passing thru}
+			//Pass thru the allBookstores data from our Mongo DB to index.js under the name 'bookstores'
+			res.render('index', {bookstores:allBookstores}); 
 		}
 	})
 });
 
-//Form to add a bookstore (get)
+//NEW - show form to create new bookstore 
 app.get('/bookstores/new', (req, res) => {
 	res.render('new');
 })
 
-//Add bookstore (post)
+//CREATE - add new bookstore to DB
 app.post('/bookstores', (req, res) => {
 	//Get data from form & add to bookstores array
 	let name = req.body.name;
 	let image = req.body.image;
-	let newBookstore = {name: name, image: image};
+	let desc = req.body.description;
+	let newBookstore = {name: name, image: image, description: desc};
 	//Create a new bookstore & save to DB
 	Bookstore.create(newBookstore, function(err, newlyCreated){
 		if(err){
@@ -79,6 +82,19 @@ app.post('/bookstores', (req, res) => {
 		}
 	})	
 });
+
+// SHOW - shows more info about one bookstore
+app.get('/bookstores/:id', (req, res) => {
+	//Find bookstore for provided ID (ie, what bookstore has the id entered in '/bookstores/id' url)
+	Bookstore.findById(req.params.id, function(err, foundBookstore){
+		if(err){
+			console.log(err);
+		} else{
+			//Render show template for that bookstore. Pass thru data for foundBookstore under name 'bookstore.'
+			res.render('show', {bookstore: foundBookstore});
+		}
+	});
+})
 
 // SET UP PORT //
 // Note: view app by starting app (nodemon app.js) & then typing 'localhost:3000' in browser

@@ -4,7 +4,7 @@
 	<h1 class='text-center mb-3'>Add a Bookstore</h1>
 
 	<!-- Form to add a bookstore -->
-	<div class='w-50 mx-auto'> <!--40% width, center horizontally-->
+	<div class='w-50 mx-auto'> <!--50% width, center horizontally-->
 		<form action='/bookstores' method='POST'> <!--form sends data via post request-->
 		  <div class='form-group'>
 		    <label for='name'>Bookstore Name</label>
@@ -13,6 +13,10 @@
 		  <div class='form-group'>
 		    <label for='image'>Photo of Bookstore</label>
 		    <input type='text' class='form-control' name='image' id='image' placeholder='Enter image url'>
+		  </div>
+		  <div class='form-group'>
+		    <label for='description'>Description</label>
+		    <input type='text' class='form-control' name='description' id='description' placeholder='Provide a brief description of bookstore'>
 		  </div>
 		  <button type='submit' class='btn btn-info'>Submit</button>
 		</form>
