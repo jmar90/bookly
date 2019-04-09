@@ -1,6 +1,8 @@
 // (Note: For db to work, start up MongoDB via 'mongod' in separte terminal)
 
-// LOAD IN MODULES //
+// ===================================================================
+// LOAD IN MODULES
+// ===================================================================
 const express 		= require('express'),
 		app 			= express(),
 		bodyParser 	= require('body-parser'),
@@ -9,7 +11,9 @@ const express 		= require('express'),
 		Review 		= require('./models/review');
 
 
-// APP CONFIGURATION: Connect to bookly DB & tell app to use packages //
+// ===================================================================
+// APP CONFIGURATION: Connect to bookly DB & tell app to use packages
+// ===================================================================
 mongoose.connect('mongodb://localhost:27017/bookly', { useNewUrlParser: true});  //27017 is default port for mongo
 
 app.set('view engine', 'ejs');
@@ -44,7 +48,12 @@ app.use(express.static(__dirname + "/public"));
 // 	})
 
 
-// SET UP ROUTES //
+// ===================================================================
+// SET UP ROUTES 
+// ===================================================================
+
+// BOOKSTORE ROUTES //
+
 //Root page (landing page)
 app.get('/', (req, res) => {
 	res.render('landing');
@@ -59,14 +68,14 @@ app.get('/bookstores', (req, res) => {
 		} else {
 			//Render index.ejs file. {name we want to give: data we are passing thru}
 			//Pass thru the allBookstores data from our Mongo DB to index.js under the name 'bookstores'
-			res.render('index', {bookstores:allBookstores}); 
+			res.render('bookstores/index', {bookstores:allBookstores}); 
 		}
 	})
 });
 
 //NEW - show form to create new bookstore 
 app.get('/bookstores/new', (req, res) => {
-	res.render('new');
+	res.render('bookstores/new');
 })
 
 //CREATE - add new bookstore to DB
@@ -96,12 +105,57 @@ app.get('/bookstores/:id', (req, res) => {
 			console.log(err);
 		} else{
 			//Render show template for that bookstore. Pass thru data for foundBookstore under name 'bookstore.'
-			res.render('show', {bookstore: foundBookstore});
+			res.render('bookstores/show', {bookstore: foundBookstore});
 		}
 	});
 })
 
-// SET UP PORT //
+
+// REVIEW ROUTES //
+
+// NEW - show form for adding new review
+app.get('/bookstores/:id/reviews/new', (req, res) => {
+	//Find the bookstore tied to review by id
+	Bookstore.findById(req.params.id, function(err, bookstore){
+		if(err){
+			console.log(err);
+		} else {
+			res.render('reviews/new', {bookstore: bookstore}); //pass thru relevant bookstore data
+		}
+	})
+});
+
+// CREATE - post new review
+app.post('/bookstores/:id/reviews', (req, res) => {
+	//Look up bookstore using ID
+	Bookstore.findById(req.params.id, function(err, bookstore){
+		// If no matching bookstore found, error
+		if(err){
+			console.log(err);
+			res.redirect('/bookstores');
+		} else {
+			// Otherwise, create new review (remember: we named author/text fields in form review[author] & review[text],
+			// so we can access both pieces of data via req.body.review)
+			Review.create(req.body.review, function(err, review){
+				if(err){
+					console.log(err);
+				} else {
+					// Add new review to DB & connect to the respective bookstore
+					// Remember: our model is called Review, BUT the data collection/table is called 'reviews'
+					// 'bookstore' refers to the bookstore we found via Bookstore.findById
+					bookstore.reviews.push(review);
+					bookstore.save();
+					res.redirect('/bookstores/' + bookstore._id); //redirect back to store's show page
+				}
+			})
+		}
+	});
+});
+
+
+// ===================================================================
+// SET UP PORT 
+// ===================================================================
 // Note: view app by starting app (nodemon app.js) & then typing 'localhost:3000' in browser
 app.listen(process.env.PORT || 3000, () => {
 	console.log('Bookly server is running!');

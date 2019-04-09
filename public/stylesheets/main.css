@@ -27,12 +27,12 @@ body {
 /* Buttons */
 .btn-info {
 	background-color: var(--accent-color);
-	border-color: var(--acent-color);
+	border-color: var(--accent-color);
 	color: var(--grey-bg-color);
 }
 
 .btn-info:hover,
-.btn-outlin-info:hover {
+.btn-outline-info:hover {
 	background-color: #17a2b8;
 	border-color: #17a2b8;
 	color: var(--grey-bg-color);
@@ -53,9 +53,18 @@ body {
 .text-info-edit, .text-info-edit:hover { color: var(--accent-color); }
 
 /* Cards */
-#bookstore-cards, #bookstore-show-card { 
+#bookstore-cards, 
+#bookstore-show-card { 
 	background-color: var(--white-bg-color);
 	border: 1px solid #ececec; 
+}
+
+/* Lines */
+hr {
+	border: 0;
+	margin: 0;
+	height: 1.5px;
+	background-color: #ececec;
 }
 
 
