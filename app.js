@@ -4,7 +4,9 @@
 const express 		= require('express'),
 		app 			= express(),
 		bodyParser 	= require('body-parser'),
-		mongoose		= require('mongoose');
+		mongoose		= require('mongoose'),
+		Bookstore 	= require('./models/bookstore'),
+		Review 		= require('./models/review');
 
 
 // APP CONFIGURATION: Connect to bookly DB & tell app to use packages //
@@ -14,28 +16,30 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 
-// SCHEMA SET UP (ie, define data structure)
-const bookstoreSchema = new mongoose.Schema({
-	name: String,
-	image: String,
-	description: String
-});
-
-// CREATE MODELS & COLLECTIONS (ie, data tables)
-// Do this by compiling schema into a model
-const Bookstore = mongoose.model('Bookstore', bookstoreSchema);
-
+// SEED DATA:
 // Bookstore.create(
 // 	{
-// 		name: 'Bibliophile',
-// 		image: 'https://images.unsplash.com/photo-1526248283201-fafd30eb2b90?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
-// 		description: 'A beautiful, turn of the century bookstore.'
+// 		name: 'Dusty Bookshelf',
+// 		image: 'https://images.unsplash.com/photo-1533327325824-76bc4e62d560?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+// 		description: 'A quaint, cozy bookshop.'
 // 	}, function(err, bookstore){
 // 		if(err){
 // 			console.log(err);
 // 		} else {
 // 			console.log('New bookstore');
-// 			console.log(bookstore);
+// 			Review.create(
+// 		      {
+// 		         text: "My favorite local bookstore!",
+// 		         author: "Julia"
+// 		      }, function(err, review){
+// 		         	if(err){
+// 		               console.log(err);
+// 		          	} else {
+// 		               bookstore.reviews.push(review);
+// 		               bookstore.save(); //Save campground
+// 		               console.log("Created new review");
+// 		           }
+// 		      });
 // 		}
 // 	})
 
@@ -86,7 +90,8 @@ app.post('/bookstores', (req, res) => {
 // SHOW - shows more info about one bookstore
 app.get('/bookstores/:id', (req, res) => {
 	//Find bookstore for provided ID (ie, what bookstore has the id entered in '/bookstores/id' url)
-	Bookstore.findById(req.params.id, function(err, foundBookstore){
+	//Then, populate reviews for that bookstore (.exec is what runs the query)
+	Bookstore.findById(req.params.id).populate('reviews').exec(function(err, foundBookstore){
 		if(err){
 			console.log(err);
 		} else{
