@@ -82,7 +82,8 @@ body {
 /* ----------------------------------------------------------- */
 /* BOOKSTORE SHOW ROUTE  */
 /* ----------------------------------------------------------- */
-#bookstore-show-name {
-	font-weight: 300;
+#bookstore-show-name,
+#bookstore-show-sub { 
+	font-weight: 300; 
 }
 
