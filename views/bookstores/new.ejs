@@ -1,4 +1,4 @@
-<% include partials/header %>
+<% include ../partials/header %>
 
 <div class='container mt-5'>
 	<h1 class='text-center mb-3'>Add a Bookstore</h1>
@@ -16,13 +16,13 @@
 		  </div>
 		  <div class='form-group'>
 		    <label for='description'>Description</label>
-		    <input type='text' class='form-control' name='description' id='description' placeholder='Provide a brief description of bookstore'>
+ 		    <textarea class='form-control' name='description' id='description' rows='3' placeholder='Provide a brief description of bookstore'></textarea>
 		  </div>
 		  <button type='submit' class='btn btn-info'>Submit</button>
+		  <a class='btn btn-outline-info' href='/bookstores'>Go Back</a>
 		</form>
-
-		<a class='text-info-edit' href='/bookstores'>Go Back</a>
 	</div>	
+	
 </div>
 
-<% include partials/footer %>
+<% include ../partials/footer %>

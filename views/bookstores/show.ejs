@@ -1,19 +1,25 @@
-<% include partials/header %>
+<% include ../partials/header %>
 <div class='container mt-5'>
+
 	<div id='bookstore-show-card' class='card w-75 mb-3 shadow-sm mx-auto'>
 		<img class='card-img-top' src="<%= bookstore.image %>" alt="Bookstore image">
 		<div class='card-body'>
 			<h1 id='bookstore-show-name' class='card-title'><%= bookstore.name %></h1>
 			<p class='card-text'><%= bookstore.description %></p>
+			<a class='btn btn-info btn-sm' href='/bookstores/<%= bookstore._id %>/reviews/new'>Add a Review</a>
 			<a class='btn btn-outline-info btn-sm' href='/bookstores'>Go Back</a>
 
-			<h2 id='bookstore-show-sub' class='card-subtitle mt-4 mb-3'>Reviews</h2>
+			<hr class='mt-4 mb-4 mx-auto'>
+
+			<h2 id='bookstore-show-sub' class='card-subtitle mb-3'>Reviews</h2>
 			<% bookstore.reviews.forEach(function(review){ %>
-				<h3 class='card-subtitle h6 d-inline-block'><%= review.author %>:</h3>
-				<p class='card-text d-inline-block'><%= review.text %></p>
+				<p class='card-text'>
+					<span class='card-subtitle h6'><%= review.author %>:</span>
+					<%= review.text %>
+				</p>
 			<% }) %>
 		</div>
 	</div>
 	
 </div>
-<% include partials/footer %>
+<% include ../partials/footer %>
