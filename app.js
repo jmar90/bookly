@@ -3,12 +3,15 @@
 // ===================================================================
 // LOAD IN MODULES
 // ===================================================================
-const express 		= require('express'),
-		app 			= express(),
-		bodyParser 	= require('body-parser'),
-		mongoose		= require('mongoose'),
-		Bookstore 	= require('./models/bookstore'),
-		Review 		= require('./models/review');
+const express 			= require('express'),
+		app 				= express(),
+		bodyParser 		= require('body-parser'),
+		mongoose			= require('mongoose'),
+		passport			= require('passport'),
+		LocalStrategy	= require('passport-local'),
+		Bookstore 		= require('./models/bookstore'),
+		Review 			= require('./models/review'),
+		User 				= require('./models/user');
 
 
 // ===================================================================
@@ -19,6 +22,26 @@ mongoose.connect('mongodb://localhost:27017/bookly', { useNewUrlParser: true}); 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
+
+// PASSPORT CONFIGURATION //
+app.use(require('express-session')({  //Enable sessions
+	secret: '', //Enter random string
+	resave: false,
+	saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+//Create middleware that will run on all routes to pass thru data re: whether or not a user is logged in
+app.use(function(req, res, next){
+	res.locals.currentUser = req.user;
+	next();
+});
+
 
 // SEED DATA:
 // Bookstore.create(
@@ -53,15 +76,13 @@ app.use(express.static(__dirname + "/public"));
 // ===================================================================
 
 // BOOKSTORE ROUTES //
-
 //Root page (landing page)
 app.get('/', (req, res) => {
 	res.render('landing');
 });
 
 //INDEX - view all bookstores
-app.get('/bookstores', (req, res) => {
-	// Pull all bookstore data from Bookstores collection, which is saved in Bookstore const
+app.get('/bookstores', (req, res) => {	// Pull all bookstore data from Bookstores collection, which is saved in Bookstore const
 	Bookstore.find({}, function(err, allBookstores){
 		if(err){
 			console.log(err);
@@ -74,12 +95,12 @@ app.get('/bookstores', (req, res) => {
 });
 
 //NEW - show form to create new bookstore 
-app.get('/bookstores/new', (req, res) => {
+app.get('/bookstores/new', isLoggedIn, (req, res) => {
 	res.render('bookstores/new');
 })
 
 //CREATE - add new bookstore to DB
-app.post('/bookstores', (req, res) => {
+app.post('/bookstores', isLoggedIn, (req, res) => {
 	//Get data from form & add to bookstores array
 	let name = req.body.name;
 	let image = req.body.image;
@@ -112,9 +133,8 @@ app.get('/bookstores/:id', (req, res) => {
 
 
 // REVIEW ROUTES //
-
 // NEW - show form for adding new review
-app.get('/bookstores/:id/reviews/new', (req, res) => {
+app.get('/bookstores/:id/reviews/new', isLoggedIn, (req, res) => {
 	//Find the bookstore tied to review by id
 	Bookstore.findById(req.params.id, function(err, bookstore){
 		if(err){
@@ -126,7 +146,7 @@ app.get('/bookstores/:id/reviews/new', (req, res) => {
 });
 
 // CREATE - post new review
-app.post('/bookstores/:id/reviews', (req, res) => {
+app.post('/bookstores/:id/reviews', isLoggedIn, (req, res) => {
 	//Look up bookstore using ID
 	Bookstore.findById(req.params.id, function(err, bookstore){
 		// If no matching bookstore found, error
@@ -151,6 +171,55 @@ app.post('/bookstores/:id/reviews', (req, res) => {
 		}
 	});
 });
+
+
+// AUTH ROUTES //
+//Show register form
+app.get('/register', (req, res) => {
+	res.render('register');
+});
+
+//Handle sign up logic
+app.post('/register', (req, res) => {
+	let newUser = new User({username: req.body.username}); //username from form
+	User.register(newUser, req.body.password, function(err, user){  //store password as hash
+		if(err){
+			console.log(err);
+			// Render register form again if error
+			return res.render('register');
+		} 
+		// Login, authenticate, & redirect to /bookstores
+		passport.authenticate('local')(req, res, function(){
+			res.redirect('/bookstores');
+		});
+	}); 
+});
+
+//Show login form
+app.get('/login', (req, res) => {
+	res.render('login');
+});
+
+//Handle login logic: use passport.authenticate middleware to authenticate password/username info entered by user
+app.post('/login', passport.authenticate('local', 
+	{	successRedirect: '/bookstores',
+		failureRedirect: '/login'
+	}), (req, res) => {
+});
+
+//Logout route
+app.get('/logout', (req, res) => {
+	req.logout();
+	res.redirect('/bookstores');
+});
+
+//isLoggedIn Middleware
+function isLoggedIn(req, res, next){
+	if(req.isAuthenticated()){
+		return next();
+	}
+	res.redirect('/login');
+}
 
 
 // ===================================================================

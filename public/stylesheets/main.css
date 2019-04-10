@@ -75,6 +75,8 @@ hr {
 
 #search-button { height: calc(1.5em + .75rem + 2px); }  /* So height is the same as search box */
 
+#curr-username, #curr-username:hover { color: var(--accent-color); }
+
 
 /* ----------------------------------------------------------- */
 /* INDEX (BOOKSTORE) ROUTE  */
