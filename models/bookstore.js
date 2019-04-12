@@ -6,6 +6,13 @@ const bookstoreSchema = new mongoose.Schema({
 	name: String,
 	image: String,
 	description: String,
+	author: {
+		id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User'
+		},
+		username: String
+	},
 	reviews: [  //not embedding actual reviews; rather, embedding array of review IDs
 		{
 			type: mongoose.Schema.Types.ObjectId,
