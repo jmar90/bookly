@@ -43,6 +43,24 @@ body {
 	border-color: var(--accent-color);
 }
 
+.btn-warning {
+	background-color: #eead0e;
+	border-color: #eead0e;
+	color: var(--grey-bg-color);
+}
+
+.btn-outline-warning {
+	color: #eead0e;
+	border-color: #eead0e;
+}
+
+.btn-warning:hover,
+.btn-outline-warning:hover {
+	background-color: #ce960c;
+	border-color: #ce960c;
+	color: var(--grey-bg-color);
+}
+
 /* Forms */
 .form-control {  /* update bootstrap class */
 	color: var(--font-color); 

@@ -1,5 +1,6 @@
 // LOAD IN MODULES
 const mongoose = require('mongoose');
+const Review = require('./review');
 
 // SCHEMA SET UP (ie, define data structure)
 const bookstoreSchema = new mongoose.Schema({
@@ -19,6 +20,19 @@ const bookstoreSchema = new mongoose.Schema({
 			ref: 'Review'
 		}
 	]
+});
+
+// Add a prehook to delete associated reviews
+bookstoreSchema.pre('remove', async function(next){
+	try {
+		await Review.remove({
+			'_id': {
+				$in: this.reviews
+			}
+		});
+	} catch(err){
+		next(err);
+	}
 });
 
 // COMPILE SCHEMA INTO MODEL & EXPORT
