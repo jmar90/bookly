@@ -31,7 +31,7 @@ app.use(methodOverride('_method'));
 
 // PASSPORT CONFIGURATION //
 app.use(require('express-session')({  //Enable sessions
-	secret: '', //Enter random string
+	secret: '', //Enter random string here
 	resave: false,
 	saveUninitialized: false
 }));
