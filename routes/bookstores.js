@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Bookstore = require('../models/bookstore');
+const Review = require('../models/review');
 
 //INDEX - view all bookstores
 router.get('/', (req, res) => {	// Pull all bookstore data from Bookstores collection, which is saved in Bookstore const
@@ -56,6 +57,40 @@ router.get('/:id', (req, res) => {
 		}
 	});
 })
+
+// EDIT BOOKSTORE (form to edit)
+router.get('/:id/edit', (req, res) => {
+	Bookstore.findById(req.params.id, function(err, foundBookstore){
+		if(err){
+			res.redirect('/bookstores');
+		} else {
+			res.render('bookstores/edit', {bookstore: foundBookstore});
+		}
+	});
+})
+
+// UPDATE BOOKSTORE
+router.put('/:id', (req, res) => {
+	// Find and update the correct bookstore
+	Bookstore.findByIdAndUpdate(req.params.id, req.body.bookstore, function(err, updatedBookstore){
+		if(err){
+			res.redirect('/bookstores');
+		} else {
+			// Redirect back to show page
+			res.redirect('/bookstores/' + req.params.id);
+		}
+	});
+})
+
+// DESTROY BOOKSTORE (delete)
+router.delete('/:id', (req, res, next) => {
+	Bookstore.findById(req.params.id, function(err, bookstore){
+		if(err) return next(err);
+		bookstore.remove();
+		// req.flash('success', 'Bookstore deleted successfully!');
+		res.redirect('/bookstores');
+	});
+});
 
 //isLoggedIn Middleware
 function isLoggedIn(req, res, next){
