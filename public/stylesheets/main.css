@@ -61,6 +61,13 @@ body {
 	color: var(--grey-bg-color);
 }
 
+.btn-group-xs > .btn, .btn-xs {
+  padding: .25rem .4rem;
+  font-size: .875rem;
+  line-height: .5;
+  border-radius: .2rem;
+}
+
 /* Forms */
 .form-control {  /* update bootstrap class */
 	color: var(--font-color); 
@@ -69,6 +76,14 @@ body {
 
 /* Text colors */
 .text-info-edit, .text-info-edit:hover { color: var(--accent-color); }
+
+.text-warning-edit { color: #eead0e; }
+.text-warning-edit:hover {
+	color: #ce960c;
+	text-decoration: underline;
+}
+
+.text-danger:hover { text-decoration: underline; }
 
 /* Cards */
 #bookstore-cards, 

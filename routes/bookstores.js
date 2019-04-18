@@ -59,18 +59,14 @@ router.get('/:id', (req, res) => {
 })
 
 // EDIT BOOKSTORE (form to edit)
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', checkBookstoreOwnership, (req, res) => {
 	Bookstore.findById(req.params.id, function(err, foundBookstore){
-		if(err){
-			res.redirect('/bookstores');
-		} else {
-			res.render('bookstores/edit', {bookstore: foundBookstore});
-		}
+		res.render('bookstores/edit', {bookstore: foundBookstore});	
 	});
-})
+});
 
 // UPDATE BOOKSTORE
-router.put('/:id', (req, res) => {
+router.put('/:id', checkBookstoreOwnership, (req, res) => {
 	// Find and update the correct bookstore
 	Bookstore.findByIdAndUpdate(req.params.id, req.body.bookstore, function(err, updatedBookstore){
 		if(err){
@@ -82,14 +78,20 @@ router.put('/:id', (req, res) => {
 	});
 })
 
-// DESTROY BOOKSTORE (delete)
-router.delete('/:id', (req, res, next) => {
-	Bookstore.findById(req.params.id, function(err, bookstore){
-		if(err) return next(err);
-		bookstore.remove();
-		// req.flash('success', 'Bookstore deleted successfully!');
-		res.redirect('/bookstores');
-	});
+// DESTROY BOOKSTORE AND ITS ASSOCIATED REVIEWS
+router.delete('/:id', checkBookstoreOwnership, (req, res) => {
+    Bookstore.findByIdAndRemove(req.params.id, (err, bookstoreRemoved) => {
+        if (err) {
+            res.redirect('/bookstores');
+        }
+        Review.deleteMany( {_id: { $in: bookstoreRemoved.reviews } }, (err) => {
+            if (err) {
+                console.log(err);
+                res.redirect('/bookstores');
+            }
+            res.redirect('/bookstores');
+        });
+    })
 });
 
 //isLoggedIn Middleware
@@ -98,6 +100,28 @@ function isLoggedIn(req, res, next){
 		return next();
 	}
 	res.redirect('/login');
+}
+
+//Check bookstore ownership middleware
+function checkBookstoreOwnership(req, res, next){
+	if(req.isAuthenticated()){
+		Bookstore.findById(req.params.id, function(err, foundBookstore){
+			if(err){
+				res.redirect('back');
+			} else {
+				//Does user own the bookstore? (check if logged in user's id = id of person who created bookstore)
+				if(foundBookstore.author.id.equals(req.user._id)){
+					next();
+				} else {
+					res.redirect('back');
+				}
+			}
+		});
+	//If not logged in:
+	} else {
+		//Take user back to previous page
+		res.redirect('back');
+	}
 }
 
 // EXPORT EXPRESS ROUTER

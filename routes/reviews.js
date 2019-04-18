@@ -48,12 +48,70 @@ router.post('/', isLoggedIn, (req, res) => {
 	});
 });
 
+// REVIEW EDIT - show form to edit comment
+router.get('/:review_id/edit', checkReviewOwnership, (req, res) => {
+	Review.findById(req.params.review_id, function(err, foundReview){
+		if(err){
+			res.redirect('back');
+		} else {
+			res.render('reviews/edit', {bookstore_id: req.params.id, review: foundReview});
+		}
+	})
+});
+
+// REVIEW UPDATE - update review
+router.put('/:review_id', checkReviewOwnership, (req, res) => {
+	Review.findByIdAndUpdate(req.params.review_id, req.body.review, function(err, updatedReview){
+		if(err){
+			res.redirect('back');
+		} else {
+			// Redirect back to show page
+			res.redirect('/bookstores/' + req.params.id);
+		}
+	});
+});
+
+// REVIEW DESTROY - delete comment
+router.delete('/:review_id', checkReviewOwnership, (req, res) => {
+	// Find by ID and remove
+	Review.findByIdAndRemove(req.params.review_id, function(err){
+		if(err){
+			res.redirect('back');
+		} else {
+			res.redirect('/bookstores/' + req.params.id);
+		}
+	})
+});
+
 //isLoggedIn Middleware
 function isLoggedIn(req, res, next){
 	if(req.isAuthenticated()){
 		return next();
 	}
 	res.redirect('/login');
+}
+
+//checkReviewOwnership Middleware
+function checkReviewOwnership(req, res, next){
+	//Is user logged in?
+	if(req.isAuthenticated()){
+		Review.findById(req.params.review_id, function(err, foundReview){
+			if(err){
+				res.redirect('back');
+			} else {
+				//Does user own the review (compare author ID to ID of currently logged in user)? 
+				if(foundReview.author.id.equals(req.user._id)){
+					next();
+				} else {
+					res.redirect('back');
+				}
+			}
+		});
+	//If not logged in:
+	} else {
+		//Take user back to previous page
+		res.redirect('back');
+	}
 }
 
 // EXPORT EXPRESS ROUTER
