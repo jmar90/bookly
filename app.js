@@ -3,18 +3,18 @@
 // ===================================================================
 // LOAD IN MODULES & ROUTES
 // ===================================================================
-const express 				= require('express'),
-		app 					= express(),
+const   express 			= require('express'),
+		app 				= express(),
 		bodyParser 			= require('body-parser'),
-		mongoose				= require('mongoose'),
-		passport				= require('passport'),
+		mongoose			= require('mongoose'),
+		passport			= require('passport'),
 		LocalStrategy		= require('passport-local'),
 		methodOverride		= require('method-override'),
 		Bookstore 			= require('./models/bookstore'),
 		Review 				= require('./models/review'),
-		User 					= require('./models/user');
+		User 				= require('./models/user');
 
-const reviewRoutes 		= require('./routes/reviews'),
+const   reviewRoutes 		= require('./routes/reviews'),
 		bookstoreRoutes 	= require('./routes/bookstores'),
 		indexRoutes			= require('./routes/index');
 

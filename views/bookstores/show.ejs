@@ -8,20 +8,34 @@
 			<p class='card-text'><%= bookstore.description %></p>
 			<p class='card-text text-info-edit'>Submitted by: <%= bookstore.author.username %></p>
 
-			<form class='d-inline' action='/bookstores/<%= bookstore._id %>?_method=DELETE' method='POST'>
-				<button class='btn btn-outline-danger btn-sm'>Delete bookstore</button>
-			</form>
-			<a class='btn btn-outline-warning btn-sm' href="/bookstores/<%= bookstore._id %>/edit">Edit bookstore info</a>
+			<!-- If there is a currently logged in user & that user owns the bookstore, display edit/delete btn -->
+			<% if(currentUser && bookstore.author.id.equals(currentUser._id)) { %>
+				<form class='d-inline' action='/bookstores/<%= bookstore._id %>?_method=DELETE' method='POST'>
+					<button class='btn btn-outline-danger btn-sm'>Delete bookstore</button>
+				</form>
+				<a class='btn btn-outline-warning btn-sm' 
+					href="/bookstores/<%= bookstore._id %>/edit">Edit bookstore info
+				</a>
+			<% }%>
 			<a class='btn btn-outline-info btn-sm' href='/bookstores/<%= bookstore._id %>/reviews/new'>Add a Review</a>
 
 			<hr class='mt-4 mb-4 mx-auto'>
 
 			<h2 id='bookstore-show-sub' class='card-subtitle mb-3'>Reviews</h2>
 			<% bookstore.reviews.forEach(function(review){ %>
-				<p class='card-text'>
+				<p class='card-text mb-1 mt-3'>
 					<span class='card-subtitle h6'><%= review.author.username %>:</span>
 					<%= review.text %>
 				</p>
+				<% if(currentUser && review.author.id.equals(currentUser._id)) { %>
+					<a class='btn btn-outline-warning btn-xs rounded-pill' 
+						href="/bookstores/<%= bookstore._id %>/reviews/<%= review._id %>/edit">
+						Edit
+					</a>
+					<form class='d-inline' action='/bookstores/<%= bookstore._id %>/reviews/<%= review._id %>?_method=DELETE' method='POST'>
+						<button class='btn btn-outline-danger btn-xs rounded-pill'>Delete</button>
+					</form>
+				<% }%>
 			<% }) %>
 		</div>
 	</div>
