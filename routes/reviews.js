@@ -3,9 +3,10 @@ const express = require('express');
 const router = express.Router({mergeParams: true});
 const Bookstore = require('../models/bookstore');
 const Review = require('../models/review');
+const middleware = require('../middleware');
 
 // REVIEW NEW - show form for adding new review
-router.get('/new', isLoggedIn, (req, res) => {
+router.get('/new', middleware.isLoggedIn, (req, res) => {
 	//Find the bookstore tied to review by id
 	Bookstore.findById(req.params.id, function(err, bookstore){
 		if(err){
@@ -17,7 +18,7 @@ router.get('/new', isLoggedIn, (req, res) => {
 });
 
 // REVIEW CREATE - post new review
-router.post('/', isLoggedIn, (req, res) => {
+router.post('/', middleware.isLoggedIn, (req, res) => {
 	//Look up bookstore using ID
 	Bookstore.findById(req.params.id, function(err, bookstore){
 		// If no matching bookstore found, error
@@ -29,6 +30,7 @@ router.post('/', isLoggedIn, (req, res) => {
 			// so we can access both pieces of data via req.body.review)
 			Review.create(req.body.review, function(err, review){
 				if(err){
+					req.flash('error', 'Something went wrong!');
 					console.log(err);
 				} else {
 					// Add username & id to review
@@ -41,6 +43,7 @@ router.post('/', isLoggedIn, (req, res) => {
 					// 'bookstore' refers to the bookstore we found via Bookstore.findById
 					bookstore.reviews.push(review);
 					bookstore.save();
+					req.flash('success', 'Your review has been added!');
 					res.redirect('/bookstores/' + bookstore._id); //redirect back to store's show page
 				}
 			})
@@ -49,7 +52,7 @@ router.post('/', isLoggedIn, (req, res) => {
 });
 
 // REVIEW EDIT - show form to edit comment
-router.get('/:review_id/edit', checkReviewOwnership, (req, res) => {
+router.get('/:review_id/edit', middleware.checkReviewOwnership, (req, res) => {
 	Review.findById(req.params.review_id, function(err, foundReview){
 		if(err){
 			res.redirect('back');
@@ -60,11 +63,12 @@ router.get('/:review_id/edit', checkReviewOwnership, (req, res) => {
 });
 
 // REVIEW UPDATE - update review
-router.put('/:review_id', checkReviewOwnership, (req, res) => {
+router.put('/:review_id', middleware.checkReviewOwnership, (req, res) => {
 	Review.findByIdAndUpdate(req.params.review_id, req.body.review, function(err, updatedReview){
 		if(err){
 			res.redirect('back');
 		} else {
+			req.flash('success', 'Review successfully updated!');
 			// Redirect back to show page
 			res.redirect('/bookstores/' + req.params.id);
 		}
@@ -72,47 +76,17 @@ router.put('/:review_id', checkReviewOwnership, (req, res) => {
 });
 
 // REVIEW DESTROY - delete comment
-router.delete('/:review_id', checkReviewOwnership, (req, res) => {
+router.delete('/:review_id', middleware.checkReviewOwnership, (req, res) => {
 	// Find by ID and remove
 	Review.findByIdAndRemove(req.params.review_id, function(err){
 		if(err){
 			res.redirect('back');
 		} else {
+			req.flash('success', 'Your review has been deleted.');
 			res.redirect('/bookstores/' + req.params.id);
 		}
 	})
 });
-
-//isLoggedIn Middleware
-function isLoggedIn(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect('/login');
-}
-
-//checkReviewOwnership Middleware
-function checkReviewOwnership(req, res, next){
-	//Is user logged in?
-	if(req.isAuthenticated()){
-		Review.findById(req.params.review_id, function(err, foundReview){
-			if(err){
-				res.redirect('back');
-			} else {
-				//Does user own the review (compare author ID to ID of currently logged in user)? 
-				if(foundReview.author.id.equals(req.user._id)){
-					next();
-				} else {
-					res.redirect('back');
-				}
-			}
-		});
-	//If not logged in:
-	} else {
-		//Take user back to previous page
-		res.redirect('back');
-	}
-}
 
 // EXPORT EXPRESS ROUTER
 module.exports = router;

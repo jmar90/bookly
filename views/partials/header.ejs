@@ -1,16 +1,16 @@
 <! DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 	<head>
-	   <meta charset="UTF-8">
-	   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	   <meta name="description" content="Bookly is a bookstore rating app.">
+	   <meta charset='UTF-8'>
+	   <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+	   <meta name='description' content='Bookly is a bookstore rating app.'>
 
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/coliff/bootstrap-rfs/bootstrap-rfs.css">
-		<link href="https://fonts.googleapis.com/css?family=Lato:300,400" rel="stylesheet">
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-		<link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
-		<link rel="stylesheet" type="text/css" href="/stylesheets/queries.css">
+		<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>
+		<link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/coliff/bootstrap-rfs/bootstrap-rfs.css'>
+		<link href='https://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet'>
+		<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.8.1/css/all.css' integrity='sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf' crossorigin='anonymous'>
+		<link rel='stylesheet' type='text/css' href='/stylesheets/main.css'>
+		<link rel='stylesheet' type='text/css' href='/stylesheets/queries.css'>
 
 		<title>Bookly</title>
 	</head>
@@ -48,4 +48,22 @@
 		    </form>
 		  </div>
 		</nav>
+
+		<!-- Flash Messages -->
+    	<% if(error && error.length > 0 ){ %>
+			<div class='alert alert-danger alert-dismissible fade show mx-3' role='alert'>
+			  <%= error %>
+			  <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+			    <span aria-hidden='true'>&times;</span>
+			  </button>
+			</div>
+		<% } %>
+		<% if(success && success.length > 0 ){ %>
+			<div class='alert alert-success alert-dismissible fade show mx-3' role='alert'>
+			  <%= success %>
+			  <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+			    <span aria-hidden='true'>&times;</span>
+			  </button>
+			</div>
+		<% } %>
 		

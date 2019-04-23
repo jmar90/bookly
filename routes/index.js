@@ -20,12 +20,14 @@ router.post('/register', (req, res) => {
 	let newUser = new User({username: req.body.username}); //username from form
 	User.register(newUser, req.body.password, function(err, user){  //store password as hash
 		if(err){
-			console.log(err);
+			// If error, flash error (eg, username already taken)
+			req.flash('error', err.message);
 			// Render register form again if error
-			return res.render('register');
+			return res.redirect('/register');
 		} 
 		// Login, authenticate, & redirect to /bookstores
 		passport.authenticate('local')(req, res, function(){
+			req.flash('success', 'Welcome to bookly, ' + user.username + '!')
 			res.redirect('/bookstores');
 		});
 	}); 
@@ -46,16 +48,9 @@ router.post('/login', passport.authenticate('local',
 //Logout route
 router.get('/logout', (req, res) => {
 	req.logout();
+	req.flash('success', 'You have been logged out!');
 	res.redirect('/bookstores');
 });
-
-//isLoggedIn Middleware
-function isLoggedIn(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect('/login');
-}
 
 // EXPORT EXPRESS ROUTER
 module.exports = router;
