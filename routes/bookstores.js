@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const Bookstore = require('../models/bookstore');
 const Review = require('../models/review');
+const middleware = require('../middleware');
 
 //INDEX - view all bookstores
 router.get('/', (req, res) => {	// Pull all bookstore data from Bookstores collection, which is saved in Bookstore const
@@ -18,12 +19,12 @@ router.get('/', (req, res) => {	// Pull all bookstore data from Bookstores colle
 });
 
 //NEW - show form to create new bookstore 
-router.get('/new', isLoggedIn, (req, res) => {
+router.get('/new', middleware.isLoggedIn, (req, res) => {
 	res.render('bookstores/new');
 })
 
 //CREATE - add new bookstore to DB
-router.post('/', isLoggedIn, (req, res) => {
+router.post('/', middleware.isLoggedIn, (req, res) => {
 	//Get data from form & add to bookstores array
 	let name = req.body.name;
 	let image = req.body.image;
@@ -38,6 +39,7 @@ router.post('/', isLoggedIn, (req, res) => {
 		if(err){
 			console.log(err);
 		} else{
+			req.flash('success', 'Success! Bookstore added.');
 			//If new bookstore successfully added, redirect (via get request) back to bookstores route
 			res.redirect('/bookstores');
 		}
@@ -59,19 +61,20 @@ router.get('/:id', (req, res) => {
 })
 
 // EDIT BOOKSTORE (form to edit)
-router.get('/:id/edit', checkBookstoreOwnership, (req, res) => {
+router.get('/:id/edit', middleware.checkBookstoreOwnership, (req, res) => {
 	Bookstore.findById(req.params.id, function(err, foundBookstore){
 		res.render('bookstores/edit', {bookstore: foundBookstore});	
 	});
 });
 
 // UPDATE BOOKSTORE
-router.put('/:id', checkBookstoreOwnership, (req, res) => {
+router.put('/:id', middleware.checkBookstoreOwnership, (req, res) => {
 	// Find and update the correct bookstore
 	Bookstore.findByIdAndUpdate(req.params.id, req.body.bookstore, function(err, updatedBookstore){
 		if(err){
 			res.redirect('/bookstores');
 		} else {
+			req.flash('success', 'Update successful!');
 			// Redirect back to show page
 			res.redirect('/bookstores/' + req.params.id);
 		}
@@ -79,7 +82,7 @@ router.put('/:id', checkBookstoreOwnership, (req, res) => {
 })
 
 // DESTROY BOOKSTORE AND ITS ASSOCIATED REVIEWS
-router.delete('/:id', checkBookstoreOwnership, (req, res) => {
+router.delete('/:id', middleware.checkBookstoreOwnership, (req, res) => {
     Bookstore.findByIdAndRemove(req.params.id, (err, bookstoreRemoved) => {
         if (err) {
             res.redirect('/bookstores');
@@ -89,40 +92,11 @@ router.delete('/:id', checkBookstoreOwnership, (req, res) => {
                 console.log(err);
                 res.redirect('/bookstores');
             }
+            req.flash('success', 'Bookstore deleted');
             res.redirect('/bookstores');
         });
     })
 });
-
-//isLoggedIn Middleware
-function isLoggedIn(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect('/login');
-}
-
-//Check bookstore ownership middleware
-function checkBookstoreOwnership(req, res, next){
-	if(req.isAuthenticated()){
-		Bookstore.findById(req.params.id, function(err, foundBookstore){
-			if(err){
-				res.redirect('back');
-			} else {
-				//Does user own the bookstore? (check if logged in user's id = id of person who created bookstore)
-				if(foundBookstore.author.id.equals(req.user._id)){
-					next();
-				} else {
-					res.redirect('back');
-				}
-			}
-		});
-	//If not logged in:
-	} else {
-		//Take user back to previous page
-		res.redirect('back');
-	}
-}
 
 // EXPORT EXPRESS ROUTER
 module.exports = router;
