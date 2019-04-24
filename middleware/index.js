@@ -7,7 +7,8 @@ const middlewareObj = {};
 middlewareObj.checkBookstoreOwnership = function (req, res, next){
 	if(req.isAuthenticated()){
 		Bookstore.findById(req.params.id, function(err, foundBookstore){
-			if(err){
+			//If error or bookstore is null
+			if(err || !foundBookstore){
 				req.flash('error', 'Bookstore not found.');
 				res.redirect('back');
 			} else {
@@ -33,7 +34,8 @@ middlewareObj.checkReviewOwnership = function(req, res, next){
 	//Is user logged in?
 	if(req.isAuthenticated()){
 		Review.findById(req.params.review_id, function(err, foundReview){
-			if(err){
+			if(err || !foundReview){
+				req.flash('error', 'Review not found.');
 				res.redirect('back');
 			} else {
 				//Does user own the review (compare author ID to ID of currently logged in user)? 
@@ -60,6 +62,24 @@ middlewareObj.isLoggedIn = function(req, res, next){
 	}
 	req.flash('error', 'You must be logged in to do that.');
 	res.redirect('/login');
+}
+
+//allowSignUp Middleware: If user currently logged in, don't allow them to sign up
+middlewareObj.allowSignUp = function(req, res, next){
+	if(req.isAuthenticated()){
+		req.flash('error', 'You are already logged in; you can\'t register again.');
+		return res.redirect('back');
+	}
+	return next();
+}
+
+//allowLogIn Middleware: If user currently logged in, don't allow them to log in again
+middlewareObj.allowLogIn = function(req, res, next){
+	if(req.isAuthenticated()){
+		req.flash('error', 'You are already logged in.');
+		return res.redirect('back');
+	}
+	return next();
 }
 
 // Export Middleware
