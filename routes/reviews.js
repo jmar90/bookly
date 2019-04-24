@@ -9,8 +9,9 @@ const middleware = require('../middleware');
 router.get('/new', middleware.isLoggedIn, (req, res) => {
 	//Find the bookstore tied to review by id
 	Bookstore.findById(req.params.id, function(err, bookstore){
-		if(err){
-			console.log(err);
+		if(err || !bookstore){
+			req.flash('error', 'Bookstore not found');
+			res.redirect('back');
 		} else {
 			res.render('reviews/new', {bookstore: bookstore}); //pass thru relevant bookstore data
 		}
@@ -53,13 +54,21 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
 
 // REVIEW EDIT - show form to edit comment
 router.get('/:review_id/edit', middleware.checkReviewOwnership, (req, res) => {
-	Review.findById(req.params.review_id, function(err, foundReview){
-		if(err){
-			res.redirect('back');
-		} else {
-			res.render('reviews/edit', {bookstore_id: req.params.id, review: foundReview});
+	//Verify that bookstore id in url exists
+	Bookstore.findById(req.params.id, function(err, foundBookstore){
+		if(err || !foundBookstore){
+			req.flash('error', 'Bookstore not found');
+			return res.redirect('back');
 		}
-	})
+		//If valid bookstore, find review
+		Review.findById(req.params.review_id, function(err, foundReview){
+			if(err){
+				res.redirect('back');
+			} else {
+				res.render('reviews/edit', {bookstore_id: req.params.id, review: foundReview});
+			}
+		});
+	});
 });
 
 // REVIEW UPDATE - update review

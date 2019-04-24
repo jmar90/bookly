@@ -51,8 +51,10 @@ router.get('/:id', (req, res) => {
 	//Find bookstore for provided ID (ie, what bookstore has the id entered in '/bookstores/id' url)
 	//Then, populate reviews for that bookstore (.exec is what runs the query)
 	Bookstore.findById(req.params.id).populate('reviews').exec(function(err, foundBookstore){
-		if(err){
-			console.log(err);
+		//If error or null bookstore
+		if(err || !foundBookstore){
+			req.flash('error', 'Bookstore note found.');
+			res.redirect('back');
 		} else{
 			//Render show template for that bookstore. Pass thru data for foundBookstore under name 'bookstore.'
 			res.render('bookstores/show', {bookstore: foundBookstore});

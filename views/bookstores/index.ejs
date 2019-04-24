@@ -1,28 +1,28 @@
 <% include ../partials/header %>
 
-	<!-- Header -->
-	<header id='bookstore-jumbotron' class='jumbotron jumbotron-fluid'>
-			<div class='container'>
-				<h1 class='display-1'>bookly</h1>
-				<p class='lead'>Get reading. Find & review bookstores.</p>
-				<a class='btn btn-info rounded-pill' href='/bookstores/new'>Add a Bookstore</a>
-			</div>
-		</header>
+<!-- Header -->
+<header id='bookstore-jumbotron' class='jumbotron jumbotron-fluid'>
+	<div class='container'>
+		<h1 class='display-1'>bookly</h1>
+		<p class='lead'>Get reading. Find & review bookstores.</p>
+		<a class='btn btn-info rounded-pill' href='/bookstores/new'>Add a Bookstore</a>
+	</div>
+</header>
 
-	<!-- Bookstore Gallery/Grid -->
-	<section id='bookstore-gallery' class='container'>
-		<div class='card-columns text-center'>
-			<% bookstores.forEach((bookstore) => { %>
-				<div id='bookstore-cards' class='card mb-3 shadow-sm'>
-					<img class='card-img-top' src = '<%= bookstore.image %>'>
-					<div class='card-body'>
-						<h2 id='bookstore-name' class='card-title'><%= bookstore.name %></h2>
-						<p class='card-text'><%= bookstore.description %></p>
-						<a class='btn btn-outline-info btn-sm' href='/bookstores/<%= bookstore._id %>'>More Info</a>
-					</div>
-				</div>		
-			<% }) %>
-		</div>
-	</section>
+<!-- Bookstore Gallery/Grid -->
+<section id='bookstore-gallery' class='container'>
+	<div class='card-columns text-center'>
+		<% bookstores.forEach((bookstore) => { %>
+			<div id='bookstore-cards' class='card mb-3 shadow-sm'>
+				<img class='card-img-top' src = '<%= bookstore.image %>'>
+				<div class='card-body'>
+					<h2 id='bookstore-name' class='card-title'><%= bookstore.name %></h2>
+					<p class='card-text'><%= bookstore.description %></p>
+					<a class='btn btn-outline-info btn-sm' href='/bookstores/<%= bookstore._id %>'>More Info</a>
+				</div>
+			</div>		
+		<% }) %>
+	</div>
+</section>
 
 <% include ../partials/footer %>

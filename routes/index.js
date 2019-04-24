@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const User = require('../models/user');
+const middleware = require('../middleware');
 
 //Root page (landing page)
 router.get('/', (req, res) => {
@@ -11,12 +12,12 @@ router.get('/', (req, res) => {
 
 // AUTH ROUTES //
 //Show register form
-router.get('/register', (req, res) => {
+router.get('/register', middleware.allowSignUp, (req, res) => {
 	res.render('register');
 });
 
 //Handle sign up logic
-router.post('/register', (req, res) => {
+router.post('/register', middleware.allowSignUp, (req, res) => {
 	let newUser = new User({username: req.body.username}); //username from form
 	User.register(newUser, req.body.password, function(err, user){  //store password as hash
 		if(err){
@@ -34,12 +35,12 @@ router.post('/register', (req, res) => {
 });
 
 //Show login form
-router.get('/login', (req, res) => {
+router.get('/login', middleware.allowLogIn, (req, res) => {
 	res.render('login');
 });
 
 //Handle login logic: use passport.authenticate middleware to authenticate password/username info entered by user
-router.post('/login', passport.authenticate('local', 
+router.post('/login', middleware.allowLogIn, passport.authenticate('local', 
 	{	successRedirect: '/bookstores',
 		failureRedirect: '/login'
 	}), (req, res) => {
