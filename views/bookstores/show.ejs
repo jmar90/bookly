@@ -6,7 +6,9 @@
 		<div class='card-body'>
 			<h1 id='bookstore-show-name' class='card-title'><%= bookstore.name %></h1>
 			<p class='card-text'><%= bookstore.description %></p>
-			<p class='card-text text-info-edit'>Submitted by: <%= bookstore.author.username %></p>
+			<p class='card-text text-info-edit'>
+				Submitted by: <%= bookstore.author.username %>, <%= moment(bookstore.createdAt).fromNow() %>		
+			</p>
 
 			<!-- If there is a currently logged in user & that user owns the bookstore, display edit/delete btn -->
 			<% if(currentUser && bookstore.author.id.equals(currentUser._id)) { %>
@@ -27,6 +29,7 @@
 					<span class='card-subtitle h6'><%= review.author.username %>:</span>
 					<%= review.text %>
 				</p>
+				<p class='card-text font-italic'><%= moment(review.createdAt).fromNow() %></p>
 				<% if(currentUser && review.author.id.equals(currentUser._id)) { %>
 					<a class='btn btn-outline-warning btn-xs rounded-pill' 
 						href='/bookstores/<%= bookstore._id %>/reviews/<%= review._id %>/edit'>
