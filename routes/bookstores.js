@@ -53,8 +53,8 @@ router.get('/:id', (req, res) => {
 	Bookstore.findById(req.params.id).populate('reviews').exec(function(err, foundBookstore){
 		//If error or null bookstore
 		if(err || !foundBookstore){
-			req.flash('error', 'Bookstore note found.');
-			res.redirect('back');
+			req.flash('error', 'Bookstore not found.');
+			res.redirect('/bookstores');
 		} else{
 			//Render show template for that bookstore. Pass thru data for foundBookstore under name 'bookstore.'
 			res.render('bookstores/show', {bookstore: foundBookstore});

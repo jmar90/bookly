@@ -10,14 +10,14 @@ middlewareObj.checkBookstoreOwnership = function (req, res, next){
 			//If error or bookstore is null
 			if(err || !foundBookstore){
 				req.flash('error', 'Bookstore not found.');
-				res.redirect('back');
+				res.redirect('/bookstores');
 			} else {
 				//Does user own the bookstore? (check if logged in user's id = id of person who created bookstore)
 				if(foundBookstore.author.id.equals(req.user._id)){
 					next();
 				} else {
 					req.flash('error', 'You don\'t have permission to do that.')
-					res.redirect('back');
+					res.redirect('/bookstores/' + req.params.id);
 				}
 			}
 		});
@@ -25,7 +25,7 @@ middlewareObj.checkBookstoreOwnership = function (req, res, next){
 	} else {
 		req.flash('error', 'You must be logged in to do that.')
 		//Take user back to previous page
-		res.redirect('back');
+		res.redirect('/login');
 	}
 }
 
@@ -36,14 +36,14 @@ middlewareObj.checkReviewOwnership = function(req, res, next){
 		Review.findById(req.params.review_id, function(err, foundReview){
 			if(err || !foundReview){
 				req.flash('error', 'Review not found.');
-				res.redirect('back');
+				res.redirect('/bookstores');
 			} else {
 				//Does user own the review (compare author ID to ID of currently logged in user)? 
 				if(foundReview.author.id.equals(req.user._id)){
 					next();
 				} else {
 					req.flash('error', 'You don\'t have permission to do that!');
-					res.redirect('back');
+					res.redirect('/bookstores/' + req.params.id);
 				}
 			}
 		});
@@ -51,7 +51,7 @@ middlewareObj.checkReviewOwnership = function(req, res, next){
 	} else {
 		req.flash('error', 'You must be logged in to do that!');
 		//Take user back to previous page
-		res.redirect('back');
+		res.redirect('/login');
 	}
 }
 
@@ -68,7 +68,7 @@ middlewareObj.isLoggedIn = function(req, res, next){
 middlewareObj.allowSignUp = function(req, res, next){
 	if(req.isAuthenticated()){
 		req.flash('error', 'You are already logged in; you can\'t register again.');
-		return res.redirect('back');
+		return res.redirect('/bookstores');
 	}
 	return next();
 }
@@ -77,7 +77,7 @@ middlewareObj.allowSignUp = function(req, res, next){
 middlewareObj.allowLogIn = function(req, res, next){
 	if(req.isAuthenticated()){
 		req.flash('error', 'You are already logged in.');
-		return res.redirect('back');
+		return res.redirect('/bookstores');
 	}
 	return next();
 }
