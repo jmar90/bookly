@@ -8,15 +8,15 @@
 		<form action='/bookstores' method='POST'> <!--form sends data via post request-->
 		  <div class='form-group'>
 		    <label for='name'>Bookstore Name</label>
-		    <input type='text' class='form-control' name='name' id='name' placeholder='Enter name of bookstore'>
+		    <input type='text' class='form-control' name='name' id='name' placeholder='Enter name of bookstore' required oninvalid="this.setCustomValidity('Please enter a bookstore name')" oninput="setCustomValidity('')">
 		  </div>
 		  <div class='form-group'>
 		    <label for='image'>Photo of Bookstore</label>
-		    <input type='text' class='form-control' name='image' id='image' placeholder='Enter image url'>
+		    <input type='text' class='form-control' name='image' id='image' placeholder='Enter image url' required oninvalid="this.setCustomValidity('Please enter an image url')" oninput="setCustomValidity('')">
 		  </div>
 		  <div class='form-group'>
 		    <label for='description'>Description</label>
- 		    <textarea class='form-control' name='description' id='description' rows='3' placeholder='Provide a brief description of bookstore'></textarea>
+ 		    <textarea class='form-control' name='description' id='description' rows='3' placeholder='Provide a brief description of bookstore (150 character limit)' required minlength="10" maxlength="150" oninvalid="this.setCustomValidity('Please enter a description between 10 and 150 characters')" oninput="setCustomValidity('')"></textarea>
 		  </div>
 		  <button type='submit' class='btn btn-info'>Submit</button>
 		  <a class='btn btn-outline-info' href='/bookstores'>Go Back</a>

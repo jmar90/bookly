@@ -7,7 +7,9 @@
 	<div class='w-50 mx-auto'> <!--50% width, center horizontally-->
 		<form action='/bookstores/<%= bookstore._id %>/reviews' method='POST'> <!--form sends data via post request-->
 		  <div class='form-group'>
-		    <textarea class='form-control' name='review[text]' rows='5' placeholder='Enter your review here'></textarea>
+		    <textarea class='form-control' name='review[text]' rows='5' placeholder='Enter your review here' required 
+		    oninvalid="this.setCustomValidity('Please enter a review.')" 
+		    oninput="setCustomValidity('')"></textarea>
 		  </div>
 		  <button type='submit' class='btn btn-info'>Submit</button>
 		  <a class='btn btn-outline-info' href='/bookstores/<%= bookstore._id %>'>Go Back</a>

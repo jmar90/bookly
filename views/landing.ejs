@@ -1,11 +1,54 @@
-<% include ./partials/header %>
+<! DOCTYPE html>
+<html lang='en'>
+	<head>
+	   <meta charset='UTF-8'>
+	   <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+	   <meta name='description' content='Bookly is a bookstore rating app.'>
 
-	<div class='container mt-5 text-center'>
-		<h1 class='mb-3'>Landing Page!</h1>
+		<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>
+		<link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/coliff/bootstrap-rfs/bootstrap-rfs.css'>
+		<link href='https://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet'>
+		<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.8.1/css/all.css' integrity='sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf' crossorigin='anonymous'>
+		<link rel='stylesheet' type='text/css' href='/stylesheets/main.css'>
+		<link rel="stylesheet" href="/stylesheets/landing.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
 
-		<p>Welcome to bookly</p>
+		<title>Bookly</title>
+	</head>
+	<body>
 
-		<a href='./bookstores'>View all bookstores</a>
+		<!-- Flash Messages -->
+    	<% if(error && error.length > 0 ){ %>
+			<div class='alert alert-danger alert-dismissible fade show mx-3' role='alert'>
+			  <%= error %>
+			  <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+			    <span aria-hidden='true'>&times;</span>
+			  </button>
+			</div>
+		<% } %>
+		<% if(success && success.length > 0 ){ %>
+			<div class='alert alert-success alert-dismissible fade show mx-3' role='alert'>
+			  <%= success %>
+			  <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+			    <span aria-hidden='true'>&times;</span>
+			  </button>
+			</div>
+		<% } %>
+
+	 <!-- Landing Page Text -->
+	<div id='landing-header' class='mx-auto text-center'>
+		<h1 class='display-1 mb-3 font-weight-bold'>bookly</h1>
+		<h2 class='h4 mb-4 font-weight-light'>Get reading. Find & review bookstores.</h2>
+
+		<a class='btn btn-outline-info btn-lg rounded-pill font-weight-light' href='./bookstores'>Continue to Site</a>
 	</div>
+
+	<ul class="slideshow">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
 
 <% include ./partials/footer %>

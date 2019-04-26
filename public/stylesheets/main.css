@@ -74,6 +74,8 @@ body {
 	font-weight: 300;
 }
 
+textarea { resize: none; }
+
 /* Text colors */
 .text-info-edit, .text-info-edit:hover { color: var(--accent-color); }
 
@@ -100,6 +102,8 @@ hr {
 	background-color: #ececec;
 }
 
+/* Icons */
+#add-store-icon { font-size: 0.75rem; }
 
 /* ----------------------------------------------------------- */
 /* NAVBAR */
