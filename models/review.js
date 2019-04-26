@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 // SCHEMA SET UP
 const reviewSchema = new mongoose.Schema({
 	text: String,
+	createdAt: { type: Date, default: Date.now },
 	author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
