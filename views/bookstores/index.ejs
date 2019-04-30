@@ -1,11 +1,17 @@
 <% include ../partials/header %>
 
 <!-- Header -->
-<header id='bookstore-jumbotron' class='jumbotron jumbotron-fluid'>
+<header id='bookstore-jumbotron' class='jumbotron jumbotron-fluid py-5'>
 	<div class='container'>
 		<h1 class='display-1'>bookly</h1>
 		<p class='lead'>Get reading. Find & review bookstores.</p>
-		<a class='btn btn-info rounded-pill' href='/bookstores/new'>
+		<form class='form-inline' action='/bookstores' method='GET'>
+			<input id='search-bar' class='form-control mr-1' type='text' name='search' placeholder='Search for bookstores'>
+			<button id='search-button' class='btn btn-outline-info' type='submit'>
+		    	<i class='fas fa-search'></i>
+		   	</button>
+		</form>
+		<a class='btn btn-info rounded-pill px-3' href='/bookstores/new'>
 			Add a Bookstore <sup><i id='add-store-icon' class='fas fa-plus pl-1'></i></sup>
 		</a>
 	</div>

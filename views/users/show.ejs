@@ -21,7 +21,7 @@
 			<h2 class='font-weight-light mb-3'><%= user.firstName %>'s Bookstores</h2>
 			<!-- If user has not added any bookstores, display this message -->
 			<% if(bookstores.length === 0){%>
-				<h3 class='h6 text-info-edit font-weight-light mt-3 mb-1'>
+				<h3 class='h6 text-muted font-weight-light mt-3 mb-1'>
 					<%= user.firstName %> has not added any bookstores <i class='far fa-frown'></i>
 				</h3>
 			<!-- Otherwise, if user has added bookstores, show cards of bookstores they've added -->
@@ -45,16 +45,16 @@
 		<div class='col-md-12'>
 			<h2 class='font-weight-light'><%= user.firstName %>'s Reviews</h2>
 			<% if(reviews.length === 0){%>
-				<h3 class='h6 text-info-edit font-weight-light mt-3 mb-1'>
+				<h3 class='h6 text-muted font-weight-light mt-3 mb-1'>
 					<%= user.firstName %> has no reviews yet <i class='far fa-frown'></i>
 				</h3>
 			<%} else { %>
 				<% reviews.forEach(function(review){ %>
 					<h3 class='h6 mt-3 mb-1'>
-						<a class='link' href='/bookstores/<%= review.bookstore.id %>'><%= review.bookstore.name %></a>
+						<a class='text-info-edit' href='/bookstores/<%= review.bookstore.id %>'><%= review.bookstore.name %></a>
 					</h3>
 					<p class='mb-1'><%= review.text %></p>
-					<small class='text-muted'><%= moment(review.createdAt).fromNow() %></small>
+					<small class='font-weight-light text-muted d-block'><%= moment(review.createdAt).fromNow() %></small>
 				<% }); %>
 			<% } %>
 		</div>

@@ -26,26 +26,26 @@
 		    <ul class='navbar-nav mr-auto mt-2 mt-lg-0'>
 		    	<% if(!currentUser){ %>
 					<li class='nav-item active'>
-			        <a class='nav-link' href='/login'>Login <span class='sr-only'>(current)</span></a>
-			      </li>
-			      <li class='nav-item'>
-			        <a class='nav-link' href='/register'>Sign Up</a>
-			      </li>
+			        	<a class='nav-link' href='/login'>Login <span class='sr-only'>(current)</span></a>
+			      	</li>
+			      	<li class='nav-item'>
+			        	<a class='nav-link' href='/register'>Sign Up</a>
+			      	</li>
 		    	<% } else { %>
 					<li class='nav-item'>
-			        <a class='nav-link' href='/logout'>Logout</a>
-			      </li>
-			      <li class='nav-item'>
-			      	<a id='curr-username' class='nav-link' href='/users/<%= currentUser.id %>'>Signed in as <%= currentUser.username %></a>	
+			        	<a class='nav-link' href='/logout'>Logout</a>
+			      	</li>
+			      	<li class='nav-item'>
+			      		<a id='curr-username' class='nav-link' href='/users/<%= currentUser.id %>'>Signed in as <%= currentUser.username %></a>	
 			    	</li>
 		    	<% } %>
 		    </ul>
-		    <form class='form-inline my-2 my-lg-0'>
-		      <input class='form-control mr-sm-2' type='search' placeholder='Search'>
+		    <form class='form-inline my-2 my-lg-0' action='/bookstores' method='GET'>
+		      <input class='form-control mr-sm-2' type='text' name='search' placeholder='Find a bookstore'>
 		      <button id='search-button' class='btn btn-outline-info my-2 my-sm-0' type='submit'>
 		      		<i class='fas fa-search'></i>
 		      </button>
-		    </form>
+			</form>
 		  </div>
 		</nav>
 

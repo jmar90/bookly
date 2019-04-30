@@ -7,16 +7,24 @@
 	<div class='w-50 mx-auto'> <!--50% width, center horizontally-->
 		<form action='/bookstores/<%= bookstore._id %>/?_method=PUT' method='POST'> 
 		  <div class='form-group'>
-		    <label for='name'>Bookstore Name</label>
-		    <input type='text' class='form-control' name='bookstore[name]' id='name' value='<%= bookstore.name %>'>
+		    <label for='name'>Bookstore Name*</label>
+		    <input type='text' class='form-control' name='bookstore[name]' id='name' value='<%= bookstore.name %>' required 
+				oninvalid="this.setCustomValidity('Please enter a bookstore name')" oninput="setCustomValidity('')">
 		  </div>
 		  <div class='form-group'>
-		    <label for='image'>Photo of Bookstore</label>
-		    <input type='text' class='form-control' name='bookstore[image]' id='image' value='<%= bookstore.image %>'>
+		    <label for='address'>Bookstore's Address*</label>
+		    <input type='text' class='form-control' name='bookstore[address]' id='address' value='<%= bookstore.address %>' required oninvalid="this.setCustomValidity('Please enter the bookstore\'s address')" oninput="setCustomValidity('')">
 		  </div>
 		  <div class='form-group'>
-		    <label for='description'>Description</label>
- 		    <textarea class='form-control' name='bookstore[description]' id='description' rows='3'><%= bookstore.description %></textarea>
+		    <label for='image'>Photo of Bookstore*</label>
+		    <input type='text' class='form-control' name='bookstore[image]' id='image' value='<%= bookstore.image %>' required 
+				oninvalid="this.setCustomValidity('Please enter an image url')" oninput="setCustomValidity('')">
+		  </div>
+		  <div class='form-group'>
+		    <label for='description'>Description*</label>
+ 		    <textarea class='form-control' name='bookstore[description]' id='description' rows='3' required minlength="10" 
+ 		   		maxlength="150" oninvalid="this.setCustomValidity('Please enter a description between 10 and 150 characters')" 
+ 		   		oninput="setCustomValidity('')"><%= bookstore.description %></textarea>
 		  </div>
 		  <button type='submit' class='btn btn-info'>Submit</button>
 		  <a class='btn btn-outline-info' href='/bookstores/<%= bookstore._id %>'>Go Back</a>
