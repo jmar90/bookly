@@ -1,6 +1,11 @@
 /* ------------------------------------------ */
 /* CUSTOMIZE CARD TILING ON /BOOKSTORES ROUTE */
 /* ------------------------------------------ */
+/* Extra small screens */
+@media (max-width: 34em){
+    #search-bar { width: 80%; }
+}
+
 /* Small screens */
 @media (min-width: 34em) {
     .card-columns {
@@ -8,6 +13,8 @@
         -moz-column-count: 2;
         column-count: 2;
     }
+
+    #search-bar { width: 70%; }
 }
 
 /* Medium screens */
@@ -17,6 +24,8 @@
         -moz-column-count: 3;
         column-count: 3;
     }
+
+    #search-bar { width: 55%; }
 }
 
 /* Large screens */
@@ -26,6 +35,8 @@
         -moz-column-count: 4;
         column-count: 4;
     }
+
+    #search-bar { width: 40%; }
 }
 
 /* Extra large screens */
@@ -35,4 +46,6 @@
         -moz-column-count: 5;
         column-count: 5;
     }
+
+    #search-bar { width: 35%; }
 }

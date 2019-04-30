@@ -6,16 +6,32 @@ const Review = require('../models/review');
 const middleware = require('../middleware');
 
 //INDEX - view all bookstores
-router.get('/', (req, res) => {	// Pull all bookstore data from Bookstores collection, which is saved in Bookstore const
-	Bookstore.find({}, function(err, allBookstores){
-		if(err){
-			console.log(err);
-		} else {
-			//Render index.ejs file. {name we want to give: data we are passing thru}
-			//Pass thru the allBookstores data from our Mongo DB to index.js under the name 'bookstores'
+router.get('/', (req, res) => {	
+	//If something has been typed in search bar
+	if(req.query.search){
+		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+		// Search by campground name
+		Bookstore.find({name: regex}, function(err, allBookstores){
+			if(err){
+				console.log(err);
+			} else if(allBookstores.length === 0){
+				req.flash('error', 'No bookstore matched that query; please try again.');
+				return res.redirect('/bookstores');
+			}
 			res.render('bookstores/index', {bookstores:allBookstores}); 
-		}
-	})
+		});
+	} else {
+		// Pull all bookstore data from Bookstores collection, which is saved in Bookstore const
+		Bookstore.find({}, function(err, allBookstores){
+			if(err){
+				console.log(err);
+			} else {
+				//Render index.ejs file. {name we want to give: data we are passing thru}
+				//Pass thru the allBookstores data from our Mongo DB to index.js under the name 'bookstores'
+				res.render('bookstores/index', {bookstores:allBookstores}); 
+			}
+		});
+	}
 });
 
 //NEW - show form to create new bookstore 
@@ -25,15 +41,16 @@ router.get('/new', middleware.isLoggedIn, (req, res) => {
 
 //CREATE - add new bookstore to DB
 router.post('/', middleware.isLoggedIn, (req, res) => {
-	//Get data from form & add to bookstores array
+	//Get data from form & add to bookstores collection
 	let name = req.body.name;
+	let address = req.body.address;
 	let image = req.body.image;
 	let desc = req.body.description;
 	let author = {
 		id: req.user._id,
 		username: req.user.username
 	};
-	let newBookstore = {name: name, image: image, description: desc, author: author};
+	let newBookstore = {name: name, address:address, image: image, description: desc, author: author};
 	//Create a new bookstore & save to DB
 	Bookstore.create(newBookstore, function(err, newlyCreated){
 		if(err){
@@ -99,6 +116,11 @@ router.delete('/:id', middleware.checkBookstoreOwnership, (req, res) => {
         });
     })
 });
+
+// Function to allow for fuzzy/regex searching
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 // EXPORT EXPRESS ROUTER
 module.exports = router;

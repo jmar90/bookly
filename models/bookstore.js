@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 // SCHEMA SET UP (ie, define data structure)
 const bookstoreSchema = new mongoose.Schema({
 	name: String,
+	address: String,
 	image: String,
 	description: String,
 	createdAt: { type: Date, default: Date.now },

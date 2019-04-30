@@ -4,15 +4,16 @@
 	<div id='bookstore-show-card' class='card w-75 mb-3 shadow-sm mx-auto'>
 		<img class='card-img-top' src='<%= bookstore.image %>' alt='Bookstore image'>
 		<div class='card-body'>
-			<h1 class='card-title font-weight-light'><%= bookstore.name %></h1>
-			<p class='card-text'><%= bookstore.description %></p>
-			<p class='card-text text-info-edit'>
+			<h1 class='card-title font-weight-light mb-1'><%= bookstore.name %></h1>
+			<p class='card-text text-muted mb-4'><%= bookstore.address %></p>
+			<p class='card-text mb-4'><%= bookstore.description %></p>
+			<small class='card-text font-weight-light text-muted d-block mb-2'>
 				Submitted by: 
-				<a class='link' href='/users/<%= bookstore.author.id %>'>
+				<a class='text-info-edit' href='/users/<%= bookstore.author.id %>'>
 					<%= bookstore.author.username %>
 				</a>, 
 				<%= moment(bookstore.createdAt).fromNow() %>		
-			</p>
+			</small>
 
 			<!-- If there is a currently logged in user & that user owns the bookstore, display edit/delete btn -->
 			<% if(currentUser && bookstore.author.id.equals(currentUser._id)) { %>
@@ -30,7 +31,7 @@
 			<h2 class='card-subtitle font-weight-light mb-3'>Reviews</h2>
 			<!-- If no reviews, print this message -->
 			<% if(bookstore.reviews.length === 0){%>
-				<h3 class='h6 text-info-edit font-weight-light mt-3 mb-1'>
+				<h3 class='h6 text-muted font-weight-light mt-3 mb-1'>
 					There are currently no reviews for <%= bookstore.name %> <i class='far fa-frown'></i>
 				</h3>
 			<!-- If there are reviews, display them -->
@@ -38,11 +39,13 @@
 				<% bookstore.reviews.forEach(function(review){ %>
 					<p class='card-text mb-1 mt-3'>
 						<span class='card-subtitle h6'>
-							<a class='link' href='/users/<%= review.author.id %>'><%= review.author.username %>:</a>
+							<a class='text-info-edit' href='/users/<%= review.author.id %>'><%= review.author.username %>:</a>
 						</span>
 						<%= review.text %>
 					</p>
-					<p class='card-text font-italic'><%= moment(review.createdAt).fromNow() %></p>
+					<small class='card-text font-weight-light text-muted d-block mb-2'>
+						<%= moment(review.createdAt).fromNow() %>
+					</small>
 					<% if(currentUser && review.author.id.equals(currentUser._id)) { %>
 						<a class='btn btn-outline-warning btn-xs rounded-pill' 
 							href='/bookstores/<%= bookstore._id %>/reviews/<%= review._id %>/edit'>
