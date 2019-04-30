@@ -4,10 +4,14 @@
 	<div id='bookstore-show-card' class='card w-75 mb-3 shadow-sm mx-auto'>
 		<img class='card-img-top' src='<%= bookstore.image %>' alt='Bookstore image'>
 		<div class='card-body'>
-			<h1 id='bookstore-show-name' class='card-title'><%= bookstore.name %></h1>
+			<h1 class='card-title font-weight-light'><%= bookstore.name %></h1>
 			<p class='card-text'><%= bookstore.description %></p>
 			<p class='card-text text-info-edit'>
-				Submitted by: <%= bookstore.author.username %>, <%= moment(bookstore.createdAt).fromNow() %>		
+				Submitted by: 
+				<a class='link' href='/users/<%= bookstore.author.id %>'>
+					<%= bookstore.author.username %>
+				</a>, 
+				<%= moment(bookstore.createdAt).fromNow() %>		
 			</p>
 
 			<!-- If there is a currently logged in user & that user owns the bookstore, display edit/delete btn -->
@@ -23,25 +27,35 @@
 
 			<hr class='mt-4 mb-4 mx-auto'>
 
-			<h2 id='bookstore-show-sub' class='card-subtitle mb-3'>Reviews</h2>
-			<% bookstore.reviews.forEach(function(review){ %>
-				<p class='card-text mb-1 mt-3'>
-					<span class='card-subtitle h6'><%= review.author.username %>:</span>
-					<%= review.text %>
-				</p>
-				<p class='card-text font-italic'><%= moment(review.createdAt).fromNow() %></p>
-				<% if(currentUser && review.author.id.equals(currentUser._id)) { %>
-					<a class='btn btn-outline-warning btn-xs rounded-pill' 
-						href='/bookstores/<%= bookstore._id %>/reviews/<%= review._id %>/edit'>
-						<i class='far fa-edit'></i>
-					</a>
-					<form class='d-inline' action='/bookstores/<%= bookstore._id %>/reviews/<%= review._id %>?_method=DELETE' method='POST'>
-						<button class='btn btn-outline-danger btn-xs rounded-pill'>
-							<i class='far fa-trash-alt'></i>
-						</button>
-					</form>
-				<% }%>
-			<% }) %>
+			<h2 class='card-subtitle font-weight-light mb-3'>Reviews</h2>
+			<!-- If no reviews, print this message -->
+			<% if(bookstore.reviews.length === 0){%>
+				<h3 class='h6 text-info-edit font-weight-light mt-3 mb-1'>
+					There are currently no reviews for <%= bookstore.name %> <i class='far fa-frown'></i>
+				</h3>
+			<!-- If there are reviews, display them -->
+			<%} else { %>
+				<% bookstore.reviews.forEach(function(review){ %>
+					<p class='card-text mb-1 mt-3'>
+						<span class='card-subtitle h6'>
+							<a class='link' href='/users/<%= review.author.id %>'><%= review.author.username %>:</a>
+						</span>
+						<%= review.text %>
+					</p>
+					<p class='card-text font-italic'><%= moment(review.createdAt).fromNow() %></p>
+					<% if(currentUser && review.author.id.equals(currentUser._id)) { %>
+						<a class='btn btn-outline-warning btn-xs rounded-pill' 
+							href='/bookstores/<%= bookstore._id %>/reviews/<%= review._id %>/edit'>
+							<i class='far fa-edit'></i>
+						</a>
+						<form class='d-inline' action='/bookstores/<%= bookstore._id %>/reviews/<%= review._id %>?_method=DELETE' method='POST'>
+							<button class='btn btn-outline-danger btn-xs rounded-pill'>
+								<i class='far fa-trash-alt'></i>
+							</button>
+						</form>
+					<% }%>
+				<% }) %>
+			<% } %>
 		</div>
 	</div>
 	

@@ -6,15 +6,40 @@
 	<!-- Form to add a review -->
 	<div class='w-50 mx-auto'> <!--50% width, center horizontally-->
 		<form action='/register' method='POST'> <!--form sends data via post request-->
-		  <div class='form-group'>
-		    <label for='username'>Username</label>
-		    <input type='text' class='form-control' name='username' id='username' placeholder='Enter a username'>
-		  </div>
-		  <div class='form-group'>
-		    <label for='password'>Password</label>
-		    <input type='password' class='form-control' name='password' id='password' placeholder='Enter a password'>
-		  </div>
-		  <button type='submit' class='btn btn-info'>Sign up</button>
+			<div class='form-row'>
+				<div class='form-group col-md-6'>
+			   		<label for='firstName'>First Name*</label>
+			   		<input type='text' class='form-control' name='firstName' id='firstName' placeholder='Jane' required oninvalid="this.setCustomValidity('Please enter your first name')" oninput="setCustomValidity('')">
+			 	</div>
+			 	<div class='form-group col-md-6'>
+			   		<label for='lastName'>Last Name*</label>
+			   		<input type='text' class='form-control' name='lastName' id='lastName' placeholder='Doe' required oninvalid="this.setCustomValidity('Please enter your last name')" oninput="setCustomValidity('')">
+			 	</div>
+			</div>
+			<div class='form-row'>
+				<div class='form-group col-md-6'>
+			   		<label for='email'>Email*</label>
+			   		<input type='email' class='form-control' name='email' id='email' placeholder='jane@doe.com' required oninvalid="this.setCustomValidity('Please provide an email address')" oninput="setCustomValidity('')">
+			 	</div>
+				<div class='form-group col-md-6'>
+			   		<label for='username'>Username*</label>
+			   		<input type='text' class='form-control' name='username' id='username' placeholder='janerules' required oninvalid="this.setCustomValidity('Please enter a username')" oninput="setCustomValidity('')">
+			 	</div>
+			</div>
+			<div class='form-group'>
+			   <label for='password'>Password*</label>
+			   <input type='password' class='form-control' name='password' id='password' placeholder='$uper_secret_p@ssw0rd' required oninvalid="this.setCustomValidity('Please enter a password')" oninput="setCustomValidity('')">
+			 </div>
+		 	<div class='form-group'>
+		   		<label for='avatar'>Profile Picture</label>
+		   		<input type='text' class='form-control' name='avatar' id='avatar' placeholder='Image url'>
+		 	</div>
+		 	<div class='form-group'>
+			    <label for='bio'>Brief Bio</label>
+	 		    <textarea class='form-control' name='bio' id='bio' rows='3' placeholder='Provide a brief bio of yourself (150 character limit)' minlength="10" maxlength="150"></textarea>
+			  </div>
+			
+			<button type='submit' class='btn btn-info'>Sign up</button>
 		</form>
 	</div>	
 </div>

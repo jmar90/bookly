@@ -37,6 +37,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
 					// Add username & id to review
 					review.author.id = req.user._id;
 					review.author.username = req.user.username;
+					review.bookstore = req.params.id;
 					// Save review
 					review.save();
 					// Add new review to DB & connect to the respective bookstore
