@@ -11,6 +11,10 @@ const reviewSchema = new mongoose.Schema({
 			ref: 'User'  //name of model we are referencing
 		},
 		username: String
+	},
+	bookstore: { // save bookstore id
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Bookstore'  
 	}
 });
 

@@ -1,0 +1,64 @@
+<% include ../partials/header %>
+<div class='container mt-5 mb-3'>
+
+	<div id='user-show-card' class='card mx-auto mb-5'>
+		<div class='row no-gutters'>
+			<div class='col-md-4'>
+				<img class='card-img rounded' src='<%= user.avatar %>' alt='User profile image'>
+			</div>
+			<div class='col-md-8'>
+				<div class='card-body'>
+					<h1 class='card-title font-weight-light mb-2'><%= user.firstName + " " + user.lastName%></h1>
+					<h3 class='card-subtitle h6 font-weight-light text-info-edit mb-3'>@<%= user.username %></h3>
+					<p class='card-text text-muted'><%= user.bio %></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr class='mt-4 mb-4 mx-auto'>
+	<div class='row align-items-start justify-content-between mb-4'>
+		<div class='col-md-12'>
+			<h2 class='font-weight-light mb-3'><%= user.firstName %>'s Bookstores</h2>
+			<!-- If user has not added any bookstores, display this message -->
+			<% if(bookstores.length === 0){%>
+				<h3 class='h6 text-info-edit font-weight-light mt-3 mb-1'>
+					<%= user.firstName %> has not added any bookstores <i class='far fa-frown'></i>
+				</h3>
+			<!-- Otherwise, if user has added bookstores, show cards of bookstores they've added -->
+			<%} else { %>
+				<div class='card-columns text center'>
+					<% bookstores.forEach(function(bookstore){%>
+						<a class='profpg-card-link' href='/bookstores/<%=bookstore.id%>'> 
+							<div id='user-bookstore-cards' class='card mb-3 shadow-sm'>
+								<img class='card-img-top' src = '<%= bookstore.image %>'>
+								<div class='card-body'>
+									<h3 class='card-title h6 font-weight-light text-default text-center'><%= bookstore.name %></h3>
+								</div>
+							</div>
+						</a>
+					<% }); %>
+				</div>
+			<% } %>
+		</div>
+	</div>
+	<div class='row align-items-start justify-content-between mb-5'>
+		<div class='col-md-12'>
+			<h2 class='font-weight-light'><%= user.firstName %>'s Reviews</h2>
+			<% if(reviews.length === 0){%>
+				<h3 class='h6 text-info-edit font-weight-light mt-3 mb-1'>
+					<%= user.firstName %> has no reviews yet <i class='far fa-frown'></i>
+				</h3>
+			<%} else { %>
+				<% reviews.forEach(function(review){ %>
+					<h3 class='h6 mt-3 mb-1'>
+						<a class='link' href='/bookstores/<%= review.bookstore.id %>'><%= review.bookstore.name %></a>
+					</h3>
+					<p class='mb-1'><%= review.text %></p>
+					<small class='text-muted'><%= moment(review.createdAt).fromNow() %></small>
+				<% }); %>
+			<% } %>
+		</div>
+	</div>
+
+</div>
+<% include ../partials/footer %>

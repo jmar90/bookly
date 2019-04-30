@@ -87,11 +87,38 @@ textarea { resize: none; }
 
 .text-danger:hover { text-decoration: underline; }
 
+.text-default { color: var(--font-color); }
+.text-default:hover { color: var(--font-color); }
+
+/* Links */
+.link { color: #0f6d7c; }
+
+.link:hover { 
+	color: #0a454e;
+	text-decoration: underline; 
+}
+
 /* Cards */
 #bookstore-cards, 
-#bookstore-show-card { 
+#bookstore-show-card,
+#user-bookstore-cards,
+#user-review-cards { 
 	background-color: var(--white-bg-color);
 	border: 1px solid #ececec; 
+}
+
+#user-bookstore-cards {
+	transition: transform 0.5s ease-out;
+}
+
+#user-bookstore-cards:hover{ 
+	transform: scale(1.04);
+	transform-origin: top center;
+}
+
+#user-show-card {
+	background-color: var(--white-bg-color);
+	border: 0;
 }
 
 /* Lines */
@@ -105,6 +132,7 @@ hr {
 /* Icons */
 #add-store-icon { font-size: 0.75rem; }
 
+
 /* ----------------------------------------------------------- */
 /* NAVBAR */
 /* ----------------------------------------------------------- */
@@ -113,6 +141,7 @@ hr {
 #search-button { height: calc(1.5em + .75rem + 2px); }  /* So height is the same as search box */
 
 #curr-username, #curr-username:hover { color: var(--accent-color); }
+#curr-username:hover { text-decoration: underline; }
 
 
 /* ----------------------------------------------------------- */
@@ -127,11 +156,16 @@ hr {
 	font-weight: 400;
 }
 
+
 /* ----------------------------------------------------------- */
-/* BOOKSTORE SHOW ROUTE  */
+/* USER PROFILE PAGE ROUTE  */
 /* ----------------------------------------------------------- */
-#bookstore-show-name,
-#bookstore-show-sub { 
-	font-weight: 300; 
+.profpg-card-link {
+	color: transparent;
+	text-decoration: none;
 }
 
+.profpg-card-link:hover {
+	color: transparent;
+	text-decoration: none;
+}
