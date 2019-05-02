@@ -4,7 +4,7 @@
 	<h1 class='text-center mb-3'>Edit Your Review</h1>
 
 	<!-- Form to add a review -->
-	<div class='w-50 mx-auto'> <!--50% width, center horizontally-->
+	<div class='w-50 mx-auto'> 
 		<form action='/bookstores/<%= bookstore_id %>/reviews/<%= review._id %>?_method=PUT' method='POST'> 
 		  <div class='form-group'>
 		    <textarea class='form-control' name='review[text]' rows='5'><%= review.text %></textarea>

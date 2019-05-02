@@ -1,4 +1,4 @@
-// LOAD IN MODULES
+// LOAD IN MONGOOSE
 const mongoose = require('mongoose');
 
 // SCHEMA SET UP

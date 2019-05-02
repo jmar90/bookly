@@ -4,8 +4,8 @@
 	<h1 class='text-center mb-3'>Add a Review for <%= bookstore.name %></h1>
 
 	<!-- Form to add a review -->
-	<div class='w-50 mx-auto'> <!--50% width, center horizontally-->
-		<form action='/bookstores/<%= bookstore._id %>/reviews' method='POST'> <!--form sends data via post request-->
+	<div class='w-50 mx-auto'> 
+		<form action='/bookstores/<%= bookstore._id %>/reviews' method='POST'> 
 		  <div class='form-group'>
 		    <textarea class='form-control' name='review[text]' rows='5' placeholder='Enter your review here' required 
 		    oninvalid="this.setCustomValidity('Please enter a review.')" 

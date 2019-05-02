@@ -1,12 +1,12 @@
-// ALL MIDDLEWARE FOR APP
-const Bookstore = require('../models/bookstore');
-const Review = require('../models/review');
+// LOAD IN REQUIRED MODULES AND CREATE EMPTY MIDDLEWARE OBJECT
+const 	Bookstore 	= require('../models/bookstore'),
+		Review 		= require('../models/review');
 const middlewareObj = {};
 
-//Check bookstore ownership middleware
-middlewareObj.checkBookstoreOwnership = function (req, res, next){
+// CHECK BOOKSTORE OWNERSHIP
+middlewareObj.checkBookstoreOwnership = (req, res, next) => {
 	if(req.isAuthenticated()){
-		Bookstore.findById(req.params.id, function(err, foundBookstore){
+		Bookstore.findById(req.params.id, (err, foundBookstore) =>{
 			//If error or bookstore is null
 			if(err || !foundBookstore){
 				req.flash('error', 'Bookstore not found.');
@@ -29,11 +29,11 @@ middlewareObj.checkBookstoreOwnership = function (req, res, next){
 	}
 }
 
-// Check review ownership middleware
-middlewareObj.checkReviewOwnership = function(req, res, next){
+// CHECK REVIEW OWNERSHIP
+middlewareObj.checkReviewOwnership = (req, res, next) => {
 	//Is user logged in?
 	if(req.isAuthenticated()){
-		Review.findById(req.params.review_id, function(err, foundReview){
+		Review.findById(req.params.review_id, (err, foundReview) => {
 			if(err || !foundReview){
 				req.flash('error', 'Review not found.');
 				res.redirect('/bookstores');
@@ -55,8 +55,8 @@ middlewareObj.checkReviewOwnership = function(req, res, next){
 	}
 }
 
-//isLoggedIn Middleware
-middlewareObj.isLoggedIn = function(req, res, next){
+// CHECK IF USER IS LOGGED IN
+middlewareObj.isLoggedIn = (req, res, next) => {
 	if(req.isAuthenticated()){
 		return next();
 	}
@@ -64,8 +64,8 @@ middlewareObj.isLoggedIn = function(req, res, next){
 	res.redirect('/login');
 }
 
-//allowSignUp Middleware: If user currently logged in, don't allow them to sign up
-middlewareObj.allowSignUp = function(req, res, next){
+// CHECK IF USER CAN REGISTER (if user already logged in, don't allow them to register again)
+middlewareObj.allowSignUp = (req, res, next) => {
 	if(req.isAuthenticated()){
 		req.flash('error', 'You are already logged in; you can\'t register again.');
 		return res.redirect('/bookstores');
@@ -73,8 +73,8 @@ middlewareObj.allowSignUp = function(req, res, next){
 	return next();
 }
 
-//allowLogIn Middleware: If user currently logged in, don't allow them to log in again
-middlewareObj.allowLogIn = function(req, res, next){
+// CHECK IF USER CAN LOG IN (if user is already logged in, don't allow them to log in again)
+middlewareObj.allowLogIn = (req, res, next) => {
 	if(req.isAuthenticated()){
 		req.flash('error', 'You are already logged in.');
 		return res.redirect('/bookstores');
@@ -82,5 +82,5 @@ middlewareObj.allowLogIn = function(req, res, next){
 	return next();
 }
 
-// Export Middleware
+// EXPORT MIDDLEWARE
 module.exports = middlewareObj;
