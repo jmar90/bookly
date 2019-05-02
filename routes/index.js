@@ -1,13 +1,14 @@
 //LOAD IN EXPRESS, EXPRESS ROUTER, & MODELS
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
-const User = require('../models/user');
-const Bookstore = require('../models/bookstore');
-const Review = require('../models/review');
-const middleware = require('../middleware');
 
-//Root page (landing page)
+const 	passport 	= require('passport'),
+		User 		= require('../models/user'),
+		Bookstore 	= require('../models/bookstore'),
+		Review 		= require('../models/review'),
+		middleware 	= require('../middleware');
+
+//ROOT PAGE (landing page)
 router.get('/', (req, res) => {
 	res.render('landing');
 });
@@ -29,7 +30,7 @@ router.post('/register', middleware.allowSignUp, (req, res) => {
 			avatar: req.body.avatar,
 			bio: req.body.bio
 		}); 
-	User.register(newUser, req.body.password, function(err, user){  //store password as hash
+	User.register(newUser, req.body.password, (err, user) => {  //store password as hash
 		if(err){
 			// If error, flash error (eg, username already taken)
 			req.flash('error', err.message);
@@ -65,17 +66,17 @@ router.get('/logout', (req, res) => {
 
 //User's profile 
 router.get('/users/:id', (req, res) => {
-	User.findById(req.params.id, function(err, foundUser){
+	User.findById(req.params.id, (err, foundUser) => {
 		if(err || !foundUser){
 			req.flash('error', 'User not found.');
 			return res.redirect('/bookstores');
 		}
-		Bookstore.find().where('author.id').equals(foundUser._id).exec(function(err, bookstores){
+		Bookstore.find().where('author.id').equals(foundUser._id).exec((err, bookstores) => {
 			if(err){
 				req.flash('error', 'Oops! Something went wrong at our end.');
 				return res.redirect('/bookstores');
 			}
-		    Review.find().where('author.id').equals(foundUser._id).populate('bookstore').exec(function(err, reviews){
+		    Review.find().where('author.id').equals(foundUser._id).populate('bookstore').exec((err, reviews) => {
 	            if(err) {
 	                req.flash('error', 'Oops! Something went wrong at our end.');
 	                return res.redirect('/bookstores');

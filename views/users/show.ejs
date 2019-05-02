@@ -29,7 +29,7 @@
 				<div class='card-columns text center'>
 					<% bookstores.forEach(function(bookstore){%>
 						<a class='profpg-card-link' href='/bookstores/<%=bookstore.id%>'> 
-							<div id='user-bookstore-cards' class='card mb-3 shadow-sm'>
+							<div id='user-bookstore-cards' class='card mb-3 shadow-sm card-edits'>
 								<img class='card-img-top' src = '<%= bookstore.image %>'>
 								<div class='card-body'>
 									<h3 class='card-title h6 font-weight-light text-default text-center'><%= bookstore.name %></h3>

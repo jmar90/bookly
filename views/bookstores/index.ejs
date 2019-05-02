@@ -21,7 +21,7 @@
 <section id='bookstore-gallery' class='container'>
 	<div class='card-columns text-center'>
 		<% bookstores.forEach((bookstore) => { %>
-			<div id='bookstore-cards' class='card mb-3 shadow-sm'>
+			<div class='card mb-3 shadow-sm card-edits'>
 				<img class='card-img-top' src = '<%= bookstore.image %>'>
 				<div class='card-body'>
 					<h2 id='bookstore-name' class='card-title'><%= bookstore.name %></h2>

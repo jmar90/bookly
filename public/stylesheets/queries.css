@@ -1,6 +1,6 @@
-/* ------------------------------------------ */
-/* CUSTOMIZE CARD TILING ON /BOOKSTORES ROUTE */
-/* ------------------------------------------ */
+/* ------------------------------------------------------------------- */
+/* CUSTOMIZE CARD CARD TILING & SEARCH BAR LENGTH ON /BOOKSTORES ROUTE */
+/* ------------------------------------------------------------------- */
 /* Extra small screens */
 @media (max-width: 34em){
     #search-bar { width: 80%; }

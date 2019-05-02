@@ -24,11 +24,16 @@ body {
 /* ----------------------------------------------------------- */
 /* REUSABLE COMPONENTS */
 /* ----------------------------------------------------------- */
-/* Buttons */
+/*** BUTTONS ***/
 .btn-info {
 	background-color: var(--accent-color);
 	border-color: var(--accent-color);
 	color: var(--grey-bg-color);
+}
+
+.btn-outline-info {
+	color: var(--accent-color);
+	border-color: var(--accent-color);
 }
 
 .btn-info:hover,
@@ -36,11 +41,6 @@ body {
 	background-color: #17a2b8;
 	border-color: #17a2b8;
 	color: var(--grey-bg-color);
-}
-
-.btn-outline-info {
-	color: var(--accent-color);
-	border-color: var(--accent-color);
 }
 
 .btn-warning {
@@ -61,25 +61,27 @@ body {
 	color: var(--grey-bg-color);
 }
 
-.btn-group-xs > .btn, .btn-xs {
+.btn-group-xs > .btn, .btn-xs { /*Create xs button size*/
   padding: .25rem .4rem;
   font-size: .875rem;
   line-height: .5;
   border-radius: .2rem;
 }
 
-/* Forms */
+/*** FORMS ***/
+textarea { resize: none; }
+
 .form-control {  /* update bootstrap class */
 	color: var(--font-color); 
 	font-weight: 300;
 }
 
-textarea { resize: none; }
-
-/* Text colors */
-.text-info-edit, .text-info-edit:hover { color: var(--accent-color); }
+/*** TEXT COLORS ***/
+.text-info-edit, 
+.text-info-edit:hover { color: var(--accent-color); }
 
 .text-warning-edit { color: #eead0e; }
+
 .text-warning-edit:hover {
 	color: #ce960c;
 	text-decoration: underline;
@@ -88,49 +90,22 @@ textarea { resize: none; }
 .text-danger:hover { text-decoration: underline; }
 
 .text-default { color: var(--font-color); }
+
 .text-default:hover { color: var(--font-color); }
 
-/* Links */
-.link { color: #0f6d7c; }
-
-.link:hover { 
-	color: #0a454e;
-	text-decoration: underline; 
-}
-
-/* Cards */
-#bookstore-cards, 
-#bookstore-show-card,
-#user-bookstore-cards,
-#user-review-cards { 
+/*** CARDS ***/
+.card-edits {
 	background-color: var(--white-bg-color);
 	border: 1px solid #ececec; 
 }
 
-#user-bookstore-cards {
-	transition: transform 0.5s ease-out;
-}
-
-#user-bookstore-cards:hover{ 
-	transform: scale(1.04);
-	transform-origin: top center;
-}
-
-#user-show-card {
-	background-color: var(--white-bg-color);
-	border: 0;
-}
-
-/* Lines */
+/*** LINES ***/
 hr {
 	border: 0;
 	margin: 0;
 	height: 1.5px;
 	background-color: #ececec;
 }
-
-/* Icons */
-#add-store-icon { font-size: 0.75rem; }
 
 
 /* ----------------------------------------------------------- */
@@ -141,20 +116,24 @@ hr {
 #search-button { height: calc(1.5em + .75rem + 2px); }  /* So height is the same as search box */
 
 #curr-username, #curr-username:hover { color: var(--accent-color); }
+
 #curr-username:hover { text-decoration: underline; }
 
 
 /* ----------------------------------------------------------- */
 /* INDEX (BOOKSTORE) ROUTE  */
 /* ----------------------------------------------------------- */
-/* Jumbotron */
+/*** JUMBOTRON ***/
 #bookstore-jumbotron { background-color: var(--grey-bg-color); }
 
-/* Cards */
+/*** CARDS ***/
 #bookstore-name {
 	font-size: 1.20rem;
 	font-weight: 400;
 }
+
+/*** ICONS ***/
+#add-store-icon { font-size: 0.75rem; }
 
 
 /* ----------------------------------------------------------- */
@@ -168,4 +147,16 @@ hr {
 .profpg-card-link:hover {
 	color: transparent;
 	text-decoration: none;
+}
+
+#user-bookstore-cards{ transition: transform 0.5s ease-out; }
+
+#user-bookstore-cards:hover{ 
+	transform: scale(1.04);
+	transform-origin: top center;
+}
+
+#user-show-card {
+	background-color: var(--white-bg-color);
+	border: 0;
 }

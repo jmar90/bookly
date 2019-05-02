@@ -1,33 +1,32 @@
 //LOAD IN EXPRESS, EXPRESS ROUTER, & MODELS
 const express = require('express');
 const router = express.Router();
-const Bookstore = require('../models/bookstore');
-const Review = require('../models/review');
-const middleware = require('../middleware');
+
+const 	Bookstore 	= require('../models/bookstore'),
+		Review 		= require('../models/review'),
+		middleware = require('../middleware');
 
 //INDEX - view all bookstores
 router.get('/', (req, res) => {	
 	//If something has been typed in search bar
 	if(req.query.search){
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-		// Search by campground name
-		Bookstore.find({name: regex}, function(err, allBookstores){
+		// Search by bookstore name
+		Bookstore.find({name: regex}, (err, allBookstores) => {
 			if(err){
 				console.log(err);
 			} else if(allBookstores.length === 0){
-				req.flash('error', 'No bookstore matched that query; please try again.');
+				req.flash('error', 'No bookstore matched that query.');
 				return res.redirect('/bookstores');
 			}
 			res.render('bookstores/index', {bookstores:allBookstores}); 
 		});
 	} else {
-		// Pull all bookstore data from Bookstores collection, which is saved in Bookstore const
-		Bookstore.find({}, function(err, allBookstores){
+		Bookstore.find({}, (err, allBookstores) => {
 			if(err){
 				console.log(err);
 			} else {
 				//Render index.ejs file. {name we want to give: data we are passing thru}
-				//Pass thru the allBookstores data from our Mongo DB to index.js under the name 'bookstores'
 				res.render('bookstores/index', {bookstores:allBookstores}); 
 			}
 		});
@@ -52,7 +51,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
 	};
 	let newBookstore = {name: name, address:address, image: image, description: desc, author: author};
 	//Create a new bookstore & save to DB
-	Bookstore.create(newBookstore, function(err, newlyCreated){
+	Bookstore.create(newBookstore, (err, newlyCreated) => {
 		if(err){
 			console.log(err);
 		} else{
@@ -67,7 +66,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
 router.get('/:id', (req, res) => {
 	//Find bookstore for provided ID (ie, what bookstore has the id entered in '/bookstores/id' url)
 	//Then, populate reviews for that bookstore (.exec is what runs the query)
-	Bookstore.findById(req.params.id).populate('reviews').exec(function(err, foundBookstore){
+	Bookstore.findById(req.params.id).populate('reviews').exec((err, foundBookstore) => {
 		//If error or null bookstore
 		if(err || !foundBookstore){
 			req.flash('error', 'Bookstore not found.');
@@ -81,7 +80,7 @@ router.get('/:id', (req, res) => {
 
 // EDIT BOOKSTORE (form to edit)
 router.get('/:id/edit', middleware.checkBookstoreOwnership, (req, res) => {
-	Bookstore.findById(req.params.id, function(err, foundBookstore){
+	Bookstore.findById(req.params.id, (err, foundBookstore) => {
 		res.render('bookstores/edit', {bookstore: foundBookstore});	
 	});
 });
@@ -89,7 +88,7 @@ router.get('/:id/edit', middleware.checkBookstoreOwnership, (req, res) => {
 // UPDATE BOOKSTORE
 router.put('/:id', middleware.checkBookstoreOwnership, (req, res) => {
 	// Find and update the correct bookstore
-	Bookstore.findByIdAndUpdate(req.params.id, req.body.bookstore, function(err, updatedBookstore){
+	Bookstore.findByIdAndUpdate(req.params.id, req.body.bookstore, (err, updatedBookstore) => {
 		if(err){
 			res.redirect('/bookstores');
 		} else {
